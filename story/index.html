@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hendaye to Gavarnie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=DM+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: the page reads west to east like the walk. A wide route strip opens it,
+   a GR waymark (white over red) pins each day on a single left-hand rail. */
+:root{
+  --paper:#f1f3ee; --surface:#fbfbf8; --ink:#18242c; --muted:#56646c; --line:#d3d7ce;
+  --blaze:#c8202b; --ice:#1c75b0; --contour:#96754a; --waymark-white:#ffffff;
+  --display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;
+  --body:"Newsreader","Iowan Old Style",Georgia,serif;
+  --mono:"DM Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10181d; --surface:#172127; --ink:#e7eae4; --muted:#9cabb2; --line:#2c3a42;
+    --blaze:#ee5558; --ice:#3a9ad8; --contour:#c2a274; --waymark-white:#f4f5f1;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10181d; --surface:#172127; --ink:#e7eae4; --muted:#9cabb2; --line:#2c3a42;
+  --blaze:#ee5558; --ice:#3a9ad8; --contour:#c2a274; --waymark-white:#f4f5f1;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--ice);outline-offset:2px;border-radius:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;font-stretch:80%}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;min-height:52px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-stretch:80%;text-decoration:none;white-space:nowrap}
+.blaze{display:inline-block;width:20px;height:13px;border-radius:2px;border:1px solid var(--line);
+  background:linear-gradient(var(--waymark-white) 0 50%,var(--blaze) 50% 100%);flex:none}
+.top nav{display:flex;gap:14px;flex-wrap:wrap}
+.top nav a{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--ink)}
+.ticks{display:flex;gap:3px;margin-left:auto;flex-wrap:wrap}
+.ticks a{width:22px;height:22px;display:grid;place-items:center;font-family:var(--mono);font-size:.66rem;text-decoration:none;
+  border:1px solid var(--line);border-radius:3px;color:var(--muted);background:var(--surface)}
+.ticks a.on{background:var(--blaze);border-color:var(--blaze);color:#fff}
+.btn{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);
+  background:transparent;border-radius:3px;padding:6px 10px}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.quiet{border-color:var(--line);color:var(--muted)}
+.btn.quiet:hover{background:var(--surface);color:var(--ink);border-color:var(--muted)}
+
+/* hero */
+.hero{padding:44px 0 28px}
+.hero h1{font-size:clamp(3rem,10.5vw,8.2rem);font-weight:800;line-height:.88;letter-spacing:-.02em;font-stretch:75%}
+.hero h1 .arrow{color:var(--blaze);font-weight:400}
+.hero .lede{max-width:62ch;font-size:1.22rem;margin:22px 0 0}
+.strip{margin:26px 0 6px}
+.strip{overflow-x:auto}
+.strip svg{display:block;width:100%;height:auto;min-width:640px}
+@media (max-width:760px){.ticks{display:none}}
+.figs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);margin-top:18px}
+.fig{padding:14px 14px 14px 0;border-right:1px solid var(--line);padding-left:14px}
+.fig:first-child{padding-left:0}
+.fig:last-child{border-right:0}
+.fig b{display:block;font-family:var(--display);font-stretch:75%;font-weight:700;font-size:clamp(1.25rem,2.5vw,2rem);line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fig span{display:block;margin-top:6px}
+@media (max-width:860px){.figs{grid-template-columns:repeat(3,1fr)}.fig:nth-child(3){border-right:0}.fig:nth-child(4){padding-left:0}.fig:nth-child(n+4){border-top:1px solid var(--line)}}
+@media (max-width:480px){.figs{grid-template-columns:repeat(2,1fr)}.fig{border-right:1px solid var(--line)!important;padding-left:14px!important;border-top:1px solid var(--line)}
+  .fig:nth-child(odd){padding-left:0!important}.fig:nth-child(even){border-right:0!important}.fig:nth-child(-n+2){border-top:0}}
+
+section{padding:46px 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:22px;max-width:70ch}
+.sec-head h2{font-size:clamp(2rem,4.6vw,3.3rem);font-weight:800;line-height:.95}
+.sec-head p{margin:0;color:var(--muted)}
+.rule{border:0;border-top:1px solid var(--line);margin:0}
+
+/* map */
+.mapbox{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.mapbox svg{display:block;width:100%;height:auto}
+.mapscroll{overflow-x:auto}
+.mapscroll svg{min-width:720px}
+.note{font-size:.92rem;color:var(--muted);margin:10px 0 0;max-width:80ch}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.legend i{display:inline-block;vertical-align:middle;margin-right:6px}
+.gpx{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px dashed var(--muted);border-radius:4px}
+.gpx.drag{background:var(--surface);border-color:var(--blaze)}
+.gpx p{margin:0;flex:1 1 320px;font-size:.95rem}
+.gpx input{position:absolute;opacity:0;width:1px;height:1px}
+
+/* charts */
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px 16px 10px}
+.chart h3{font-size:1.2rem;font-weight:700}
+.chart .sub{font-size:.9rem;color:var(--muted);margin:2px 0 8px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.chart text.val{fill:var(--ink);font-size:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+.col.dim{opacity:.35}
+.hit{fill:transparent;cursor:pointer}
+#tip{position:fixed;z-index:60;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.74rem;
+  line-height:1.5;padding:8px 10px;border-radius:4px;max-width:260px;display:none;white-space:pre-line}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tablescroll{overflow-x:auto}
+details{margin-top:14px}
+summary{cursor:pointer;font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.flag{display:inline-block;font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--contour);
+  color:var(--contour);border-radius:3px;padding:1px 5px;margin-left:6px;white-space:nowrap}
+
+/* timeline */
+.days{position:relative}
+.day{display:grid;grid-template-columns:150px minmax(0,1fr);gap:0 26px;position:relative;padding:0 0 46px}
+.day::before{content:"";position:absolute;left:160px;top:8px;bottom:0;width:2px;background:var(--line)}
+.day:last-child::before{background:linear-gradient(var(--line) 0 30%,transparent)}
+.day .rail{text-align:right;padding-right:0;position:sticky;top:72px;align-self:start}
+.day .rail .n{font-family:var(--display);font-stretch:75%;font-weight:800;font-size:4.4rem;line-height:.82;color:var(--ink)}
+.day .rail .n small{display:block;font-family:var(--mono);font-weight:400;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.day .rail .d{font-family:var(--mono);font-size:.76rem;color:var(--muted);margin-top:8px}
+.day .body{position:relative;padding-left:26px;min-width:0}
+.day .body>.blaze{position:absolute;left:-24px;top:8px;width:24px;height:16px}
+.day h3{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;line-height:1.02}
+.day .leg{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin:6px 0 10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.chip{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted);background:var(--surface)}
+.chip.route{border-color:var(--blaze);color:var(--blaze)}
+.chip.wx{border-color:var(--ice);color:var(--ice)}
+.chip.body{border-color:var(--contour);color:var(--contour)}
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border:1px solid var(--line);border-radius:4px;background:var(--surface);margin:0}
+.stats div{padding:9px 10px;border-right:1px solid var(--line);min-width:0}
+.stats div:last-child{border-right:0}
+.stats dt{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.stats dd{margin:2px 0 0;font-family:var(--display);font-stretch:80%;font-weight:700;font-size:1.25rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stats dd small{font-family:var(--mono);font-weight:400;font-size:.66rem;color:var(--muted)}
+@media (max-width:760px){.stats{grid-template-columns:repeat(3,1fr)}.stats div:nth-child(3){border-right:0}.stats div:nth-child(-n+3){border-bottom:1px solid var(--line)}}
+.meter{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.meter .bar{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden;display:flex;gap:2px}
+.meter .bar i{display:block;height:100%}
+.meter .bar i.km{background:var(--ice)}
+.meter .bar i.up{background:var(--blaze)}
+.log{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:12px}
+.log li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px}
+.log time{font-family:var(--mono);font-size:.74rem;color:var(--muted);padding-top:5px}
+.log p{margin:0;white-space:pre-line;max-width:62ch;font-size:1.08rem;font-style:italic}
+.log li.pin p{font-style:normal;font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.night{margin:16px 0 0;padding:10px 12px;border-left:3px solid var(--contour);background:var(--surface);font-size:.98rem}
+.night b{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--contour);font-weight:500;margin-right:8px}
+.photos{margin-top:14px}
+.photos .ph-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.photos .ph-head label{border:1px solid var(--line);border-radius:3px;padding:4px 9px;cursor:pointer;background:var(--surface);color:var(--ink)}
+.photos .ph-head label:hover{border-color:var(--ink)}
+.photos input{position:absolute;opacity:0;width:1px;height:1px}
+.photos .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:8px}
+.photos .grid:empty{display:none}
+.photos figure{margin:0;position:relative;aspect-ratio:1;overflow:hidden;border-radius:3px;background:var(--line)}
+.photos img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.photos figure button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;line-height:1;display:none}
+body.editing .photos figure button{display:block}
+.photos.drag{outline:2px dashed var(--blaze);outline-offset:6px;border-radius:4px}
+@media (max-width:760px){
+  .day{grid-template-columns:minmax(0,1fr);padding-bottom:38px}
+  .day::before{left:7px}
+  .day .rail{position:static;text-align:left;display:flex;align-items:baseline;gap:12px;padding-left:30px;margin-bottom:6px}
+  .day .rail .n{font-size:3rem}
+  .day .rail .n small{display:inline;margin-right:6px}
+  .day .body{padding-left:30px}
+  .day .body>.blaze{left:-4px;top:-46px}
+}
+
+/* looking back */
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 40px}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+.cols h3{font-size:1.45rem;font-weight:700;margin-bottom:8px}
+.cols p,.cols li{max-width:60ch}
+.cols ul{margin:0;padding-left:1.1em;display:grid;gap:8px}
+.pull{font-family:var(--display);font-stretch:78%;font-weight:700;font-size:clamp(1.7rem,3.6vw,2.7rem);line-height:1.05;max-width:22ch;margin:0 0 6px}
+.nights{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:4px;margin:8px 0 6px}
+.nights span{display:grid;place-items:center;height:44px;border-radius:3px;font-family:var(--mono);font-size:.7rem;border:1px solid var(--line);background:var(--surface)}
+.nights span.camp{background:var(--contour);border-color:var(--contour);color:#fff}
+.nights span.hut{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.nights span.bed{background:var(--surface)}
+.ledger{list-style:none;padding:0!important;margin:0;display:grid;gap:0}
+.ledger li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;padding:7px 0;border-bottom:1px solid var(--line);max-width:none}
+.ledger li span{font-family:var(--mono);font-size:.72rem;color:var(--muted);padding-top:4px}
+footer{padding:26px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer p{max-width:85ch;margin:0 0 8px}
+
+/* editor */
+#editor{position:fixed;top:0;right:0;bottom:0;width:min(320px,92vw);z-index:70;background:var(--surface);border-left:1px solid var(--line);
+  padding:18px;overflow:auto;transform:translateX(105%);transition:transform .2s ease;box-shadow:-12px 0 30px rgba(0,0,0,.12)}
+#editor.open{transform:none}
+@media (prefers-reduced-motion: reduce){#editor{transition:none}}
+#editor h2{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+#editor p{font-size:.9rem;color:var(--muted);margin:0 0 14px}
+#editor fieldset{border:0;border-top:1px solid var(--line);padding:12px 0;margin:0;display:grid;gap:10px}
+#editor legend{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:0}
+#editor label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.95rem}
+#editor input[type=color]{width:44px;height:30px;border:1px solid var(--line);border-radius:3px;background:none;padding:0}
+#editor .row{display:flex;gap:8px;flex-wrap:wrap}
+body.editing [data-k]{outline:1px dashed var(--contour);outline-offset:2px;cursor:text}
+body.editing [data-k]:focus{outline:2px solid var(--blaze)}
+
+/* lightbox */
+#lightbox{position:fixed;inset:0;z-index:80;background:rgba(8,12,15,.92);display:none;place-items:center;padding:20px}
+#lightbox.open{display:grid}
+#lightbox img{max-width:100%;max-height:100%;border-radius:3px}
+#lightbox button{position:absolute;top:14px;right:14px;border:1px solid #fff;color:#fff;background:transparent;border-radius:3px;padding:6px 10px;font-family:var(--mono);font-size:.72rem}
+
+/* route draw-in */
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.strip .done{stroke-dasharray:var(--len);animation:draw 1.8s ease-out both}
+@media (prefers-reduced-motion: reduce){.strip .done{animation:none}}
+
+/* v2: recorded-track additions */
+.facts{margin:10px 0 0;text-transform:none;letter-spacing:.02em;font-size:.74rem;line-height:1.6}
+.zones{display:flex;align-items:center;gap:10px;margin:8px 0 0;flex-wrap:wrap}
+.zbar{flex:1 1 180px;height:10px;display:flex;gap:2px;border-radius:5px;overflow:hidden;min-width:140px}
+.zbar i,.ztrack i{display:block;height:100%}
+.z1{background:color-mix(in srgb,var(--blaze) 22%,var(--surface))}.z2{background:color-mix(in srgb,var(--blaze) 42%,var(--surface))}
+.z3{background:color-mix(in srgb,var(--blaze) 64%,var(--surface))}.z4{background:color-mix(in srgb,var(--blaze) 84%,var(--surface))}.z5{background:var(--blaze)}
+.zrow{display:grid;grid-template-columns:64px minmax(0,1fr) 96px;gap:10px;align-items:center;padding:4px 0}
+.ztrack{height:14px;background:color-mix(in srgb,var(--line) 50%,transparent);border-radius:3px;overflow:hidden}
+.ztrack i{border-radius:3px}
+.dayviz{display:grid;grid-template-columns:240px minmax(0,1fr);gap:12px;margin:14px 0 0}
+.dayviz figure{margin:0;border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:8px 10px 6px;min-width:0}
+.dayviz svg{display:block;width:100%;height:auto;overflow:visible}
+.dayviz text{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
+.dayviz figcaption{font-size:.62rem;margin-top:4px}
+@media (max-width:760px){.dayviz{grid-template-columns:1fr}.dayviz figure:first-child svg{max-width:260px}}
+.where{display:inline-block;margin-top:4px;font-size:.66rem;color:var(--ice);border:1px solid color-mix(in srgb,var(--ice) 45%,transparent);border-radius:3px;padding:0 6px;text-transform:none;letter-spacing:.02em}
+.log li.pin .where{margin-left:0}
+.nights span{height:52px;align-content:center;gap:0;line-height:1.15}
+.nights span b{font-weight:500;display:block}
+.nights span small{display:block;font-size:.58rem;opacity:.8}
+
+/* v3: embedded photo galleries */
+.photos .ph-head{margin:0 0 8px}
+.photos .grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
+.photos figure{cursor:zoom-in}
+.photos figure img{cursor:inherit}
+.photos figcaption{position:absolute;left:0;bottom:0;font-family:var(--mono);font-size:.62rem;color:#fff;background:rgba(0,0,0,.55);padding:1px 5px;border-top-right-radius:3px}
+.photos figure:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+#lightbox{grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr) auto;gap:10px;align-items:center}
+#lightbox img{grid-column:2;grid-row:1;justify-self:center;max-height:100%;min-height:0;object-fit:contain}
+#lightbox #lbPrev,#lightbox #lbNext{position:static;font-size:1.6rem;line-height:1;padding:10px 14px}
+#lightbox #lbPrev{grid-column:1;grid-row:1}#lightbox #lbNext{grid-column:3;grid-row:1}
+#lightbox #lbCap{grid-column:1 / -1;grid-row:2;margin:0;text-align:center;color:#fff;text-transform:none;letter-spacing:.02em;font-size:.76rem}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="blaze" aria-hidden="true"></span><span>GR10 / HRP 2026</span></a>
+    <nav aria-label="Sections">
+      <a href="#route">Route</a><a href="#effort">Effort</a><a href="#days">Days</a><a href="#looking-back">Looking back</a><a href="../#trips" id="backLink" hidden>Training dashboard</a>
+    </nav>
+    <div class="ticks" id="ticks" aria-label="Jump to a day"></div>
+    <button class="btn" id="editBtn" type="button" aria-expanded="false" aria-controls="editor">Edit page</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <p class="mono" data-k="eyebrow">Pyrenees traverse · GR10, GR11, GR12 and HRP · 11–23 August 2026</p>
+      <h1><span data-k="h1a">Hendaye</span> <span class="arrow" aria-hidden="true">→</span> <span data-k="h1b">Gavarnie</span></h1>
+      <p class="lede" data-k="lede">Thirteen days on foot along the French–Spanish border, from the Atlantic at Hendaye to the foot of the Cirque de Gavarnie. The plan was the Mediterranean at Banyuls. The knees ended it at Gavarnie, 301 km in.</p>
+      <div class="strip" id="strip" role="img" aria-label="Route strip from the Atlantic to the Mediterranean, showing the section walked from Hendaye to Gavarnie and the section left to Banyuls-sur-Mer"></div>
+      <div class="figs" id="figs"></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="route">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="mono">01 · Route</p>
+        <h2 data-k="route-h">Where the 13 days went</h2>
+        <p data-k="route-p">Your recorded track, one leg per day. Numbered markers are the 13 nights. Hover or tap a leg to light it up and jump to its entry.</p>
+      </div>
+      <div class="mapbox"><div class="mapscroll" id="map"></div></div>
+      <div class="legend" id="mapLegend"></div>
+      <p class="note" id="mapNote"></p>
+      <div class="chart" id="profileBox" style="margin-top:14px">
+        <h3>Elevation along the walk</h3>
+        <p class="sub">Sixty altitude samples a day from the Garmin tracks. Circles mark the altitude of each night. Tap a day to open it.</p>
+        <div id="profile"></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="effort">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="mono">02 · Effort</p>
+        <h2 data-k="effort-h">What the watch recorded</h2>
+        <p data-k="effort-p">Fifteen Garmin hiking recordings, grouped into the 13 days. Hover or tap a day in any chart to read all of its figures.</p>
+      </div>
+      <div class="chart">
+        <h3>Daily load, in kilometre-effort</h3>
+        <p class="sub">Distance plus 1 km for every 100 m climbed, the usual trail measure for comparing flat and steep days.</p>
+        <div class="legend" style="margin:0 0 6px"><span><i style="width:12px;height:12px;background:var(--ice);border-radius:2px"></i>Distance (km)</span><span><i style="width:12px;height:12px;background:var(--blaze);border-radius:2px"></i>Climb (m ÷ 100)</span></div>
+        <div id="chLoad"></div>
+      </div>
+      <div class="grid3">
+        <div class="chart"><h3>Up and down</h3><p class="sub">Metres climbed above the line, metres descended below it.</p><div id="chUpDown"></div></div>
+        <div class="chart"><h3>Hours</h3><p class="sub">Recorded time, with the part Garmin counted as moving in dark.</p><div id="chHours"></div></div>
+        <div class="chart"><h3>Average heart rate</h3><p class="sub">Beats per minute, weighted by recorded time.</p><div id="chHr"></div></div>
+      </div>
+      <div class="chart" style="margin-top:14px"><h3>Time in heart-rate zones</h3><p class="sub">All 15 recordings together, 88 hours with a heart-rate reading. Zones 1 and 2 make up 82%.</p><div id="zoneTotal"></div></div>
+      <details>
+        <summary>All 15 recordings as a table</summary>
+        <div class="tablescroll"><table id="actTable"></table></div>
+      </details>
+
+      <div class="sec-head" style="margin-top:38px">
+        <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)" data-k="said-h">What you told the group, against the watch</h2>
+        <p data-k="said-p">Your estimates from the trail were close. The one large miss was in your own disfavour.</p>
+      </div>
+      <div class="tablescroll"><table id="saidTable"></table></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="days">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="mono">03 · Days</p>
+        <h2 data-k="days-h">Day by day</h2>
+        <p data-k="days-p">Your updates to the group, as sent, next to the Garmin figures for the same day. The blue tag under an update shows where the watch was when the message went out, which on days without network is later than when you wrote it. Open a photo to see when and where on the track it was taken.</p>
+      </div>
+      <div class="days" id="dayList"></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section id="looking-back">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="mono">04 · Looking back</p>
+        <h2 data-k="back-h">What the 13 days add up to</h2>
+      </div>
+      <div class="cols" id="backCols"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Sources.</strong> Updates, timings and the two map pins come from the WhatsApp group export (11–23 August 2026). Distance, climb, descent, time, heart rate, steps and the GPS tracks come from the Garmin files behind your training dashboard (15 hiking recordings, read on 11 November 2026).</p>
+    <p><strong>Gaps.</strong> Photos are from your iCloud shared album: 404 pictures resized to 1,100 px and re-encoded, so the copies carry no embedded location data; they are placed on the track by the time they were taken. The album's screenshots (tickets, a parcel label, app screens) and its one video are left out. Tracks are simplified to 80 points and 60 altitude samples a day. Garmin's moving time undercounts slow, steep ground. The 23 August heart-rate average (79 bpm) rests on 12 minutes of data. Temperatures are from the watch on the wrist and read warmer than the air.</p>
+  </div>
+</footer>
+
+<aside id="editor" aria-label="Page editor" aria-hidden="true">
+  <h2>Edit page</h2>
+  <p>Changes are saved in this browser only.</p>
+  <fieldset>
+    <legend>Text</legend>
+    <label for="edText">Edit text on the page <input type="checkbox" id="edText"></label>
+    <p style="margin:0">Outlined text becomes editable: headings, intro lines, every update and the looking-back notes.</p>
+  </fieldset>
+  <fieldset>
+    <legend>Colours</legend>
+    <label for="edBlaze">Trail red <input type="color" id="edBlaze"></label>
+    <label for="edIce">Blue <input type="color" id="edIce"></label>
+    <label for="edContour">Contour brown <input type="color" id="edContour"></label>
+    <label for="edPaper">Background <input type="color" id="edPaper"></label>
+    <label for="edInk">Text <input type="color" id="edInk"></label>
+  </fieldset>
+  <fieldset>
+    <legend>Reset</legend>
+    <div class="row">
+      <button class="btn quiet" type="button" id="rsText">Text</button>
+      <button class="btn quiet" type="button" id="rsColours">Colours</button>
+    </div>
+    <span class="mono" id="edMsg" role="status"></span>
+  </fieldset>
+  <button class="btn" type="button" id="edClose">Close</button>
+</aside>
+
+<div id="tip" role="tooltip"></div>
+<div id="lightbox" role="dialog" aria-label="Photo"><button type="button" id="lbClose">Close</button><button type="button" id="lbPrev" aria-label="Previous photo">‹</button><img alt="" id="lbImg"><button type="button" id="lbNext" aria-label="Next photo">›</button><p id="lbCap" class="mono"></p></div>
+
+<script>
+// Garmin figures: stage summary from Garmin Connect (15 hiking recordings, 11–23 Aug 2026).
+// a = recordings that day: [Garmin title, km, climb m, descent m, moving h:mm, recorded h:mm, avg HR, max HR]
+// w = map waypoints: [lat, lon, name, flags]  n=night, x=approximate position, p=exact WhatsApp pin, l=label on map
+const DAYS = [
+{ n:1, date:"2026-08-11", dow:"Tue", title:"Atlantic start", from:"Hendaye", to:"a lake camp above the coast",
+  a:[["Hendaye",15.9,776,525,"3:11","6:13",122,188]],
+  routes:["GR10","HRP"], land:"FR", wx:["Heat"], body:[], photos:16, videos:0,
+  night:["camp","Tent by the lake"],
+  w:[[43.3600,-1.7740,"Hendaye","l"],[43.333,-1.730,"Lake camp","nx"]],
+  log:[
+   ["13:42",`Hello hello!!
+Sarting the GR 10 / HRP hike now from Hendaye, aiming for the Mediterranean on the other side, to Banyuls.
+
+This will be a little group where I’ll keep updating by day as network is available. 😇👌🏽🦘`],
+   ["17:59",`First few kms in, met a new friend, Japanese-Algerian, walking together for a bit
+
+Sweating like a camel 🐪 but we managing 💪`],
+   ["18:00",`Gonna setup by the lake most likely and take it easy the first day :)`],
+   ["19:32",`Good night!`]
+  ]},
+{ n:2, date:"2026-08-12", dow:"Wed", title:"Eclipse on the border", from:"the lake camp", to:"a wild camp on the Spanish side",
+  a:[["Urrugne",8.1,481,378,"1:31","4:19",122,176],["Bera",14.7,933,775,"2:42","4:31",128,168]],
+  routes:["HRP","GR11"], land:"FR → ES", wx:["Solar eclipse"], body:[], photos:13, videos:0,
+  night:["camp","Wild camp, Spanish side of the border"],
+  w:[[43.311,-1.691,"Lunch stop (WhatsApp pin, 13:02)","p"],[43.262,-1.622,"Wild camp, Spanish side","nx"]],
+  log:[
+   ["08:45",`Hello! 🌞
+
+Heading to Pitara for a water refill, and heading along the HRP towards the Spanish side
+
+No sunglasses for the Eclipse yet..!`],
+   ["08:45",`Yesterday only 15km, so today hopefully a bigger day!`],
+   ["13:01",`Lunch break!`],
+   ["13:02",`Leaving my new friend afterwards, and continuing along the border!`],
+   ["13:02","Location shared: 43.311, -1.691","pin"],
+   ["21:31",`Decent afternoon with around 15km done in the second part of the day, picking up pace slowly but surely.
+
+Wild camping on the Spanish side, and aiming for the town Elizondo tomorrow, potentially a bit further if the morning goes well!`],
+   ["21:31",`Horses in the eclipse 🤗`],
+   ["21:33",`So now following part of the Spanish GR11 for a while!
+
+Tomorrow morning first step water, and then around 5:30h to town.
+
+Network is patchy but aiming to keep updating as I go!`],
+   ["21:34",`As I catch network tomorrow will also send a brief update!`]
+  ]},
+{ n:3, date:"2026-08-13", dow:"Thu", title:"The long one", from:"the border camp", to:"Les Aldudes, via Elizondo",
+  a:[["Sare",34.0,1824,1930,"7:09","11:03",110,160]],
+  routes:["GR11"], land:"ES → FR", wx:[], body:[], photos:38, videos:0,
+  night:["camp","Tent in Les Aldudes, next to a hedgehog"],
+  w:[[43.1456,-1.5172,"Elizondo","l"],[43.0958,-1.4267,"Les Aldudes","nl"]],
+  log:[
+   ["08:29",`Morning morning! Headed out around 8AM, just got water and on the way!`],
+   ["08:38",`Little horsey was quite amused and scared of the orange mattress and noise of the tent packing 😂 ⛺️`],
+   ["14:59",`Made it to Elizondo, heart of Basque country.
+
+Together with a swiss experienced thru-hiker (68 yrs old), will have lunch, recherge and head slowly to the next point: Les Aldudes in FR, not sure if will reach it today though..!`],
+   ["20:10",`Pushing for Les Aldudes at the FR, lovely farmer shared water and a radler, before moving on to sacrificing a bull 🐂😅`],
+   ["20:11",`Today so far… With 1.5k D+`]
+  ]},
+{ n:4, date:"2026-08-14", dow:"Fri", title:"Racing the storm to Azpegi", from:"Les Aldudes", to:"the unmanned Refugio de Azpegi",
+  a:[["Aldudes (short)",3.1,360,53,"0:34","1:29",121,157],["Aldudes",24.8,1382,1094,"4:54","8:16",104,158]],
+  routes:["GR12","Camino de Santiago"], land:"FR → ES", wx:["Cloud","Storm approaching"], body:[], photos:33, videos:2,
+  night:["hut","Refugio de Azpegi, on a dinner table"],
+  w:[[43.040,-1.232,"Refugio de Azpegi","nl"]],
+  log:[
+   ["09:18",`Greetings! Managed to reach Les Aldudes last night, 33-35km total.
+
+Fortunately a shower was left open, and after camping next to a hedgehog 🦔, and getting 40 bell rings at 6 AM, slowly but surely grabbing a coffee and heading!`],
+   ["09:18",`Today cloudy day, with some rains potentially late evening..!`],
+   ["09:42",`Ural Side-Car`],
+   ["16:31",`Heading for the unmanned Refugio de Azpegi, on the GR12 and Compostella.
+
+Clouds rolling in, and a strom seems to be slowly approaching. At least the temperature is better 😅`],
+   ["16:31",`Tough day so far but moving forward 💪`],
+   ["17:57",`Big push to 1,440, soon dropping to the hut. Escaped the rain, met some Compostellos, and hopefully the hut is not busy!`],
+   ["17:57",`And inshallah early night and early wake!`],
+   ["21:12",`Made it 👌🏽`]
+  ]},
+{ n:5, date:"2026-08-15", dow:"Sat", title:"Fog, then France", from:"Azpegi", to:"Chalets d’Iraty",
+  a:[["Orbaizeta",27.1,1369,1051,"5:40","8:44",106,150]],
+  routes:["GR12","GR10"], land:"ES → FR", wx:["Fog","Storm at lunch"], body:["Blister plasters"], photos:12, videos:0,
+  night:["bed","A room in a chalet at Iraty"],
+  w:[[43.036,-1.082,"Lunch stop in the Iraty forest",""],[43.036,-1.031,"Chalets d’Iraty","nl"]],
+  log:[
+   ["08:34",`Hello!
+
+After a night on a dinner table, quite calm, with some new people on the road, back on the trail, aiming for another big day 💪`],
+   ["08:39",`Leaving Azpegi, gonna follow GR12 and GR10 back into France around half way mark.`],
+   ["08:53",`Kind German field Doctor gave me some spare blister stickers 😅`],
+   ["09:28",`Not much network around here, aim for the day is the reach Chalets d’Iraty!`],
+   ["10:22",`Foggy weather makes it a bit more difficult to navigate, but lower temperatures are a blessing!
+
+Making good progress so pushing through ⛰️`],
+   ["15:30",`Arrived at Refuge Pietro, managed to order food despite a half-closed kitchen and asking 3x if it’s OK 😹`],
+   ["15:30",`Will rest and eat, and head to Chalet d’Iraty slowly but surely after lunch.`],
+   ["15:32",`France^^ 🇫🇷`],
+   ["17:40",`Storm passed, lunch eaten, socialising with Basques done, now onto Chalets d’Iraty 💪`],
+   ["19:36",`Got a room in a Chalet, will aim to sleep early and have an early start 🙌🏽`]
+  ]},
+{ n:6, date:"2026-08-16", dow:"Sun", title:"No thinking, just walking", from:"Chalets d’Iraty", to:"Refugio de Belagua",
+  a:[["Larrau",32.0,1553,1442,"6:27","10:41",112,155]],
+  routes:["GR12"], land:"FR → ES", wx:["Wind","Storm in the evening"], body:[], photos:31, videos:0,
+  night:["hut","Refugio de Belagua, dinner at 19:30"],
+  w:[[42.951,-0.812,"Refugio de Belagua","nl"]],
+  log:[
+   ["07:12",`Onto Refuge de Belagua in Spain, with a Col at 1,900m.
+
+And a massive day ahead.
+
+Everyday a little bit earlier 💪`],
+   ["11:27",`Skipped the peak cos of weather and wind, but in the meantime sun came out, and got seriously detoured losing about 1:30h, but back on track now and will aim to follow the GR12…!`],
+   ["12:55",`Decent progress now that I’m back on the trail, though that little bit really took a lot of energy…
+
+Some nice people in camper shared water.
+
+And powering along 💪
+
+Booked a spot and a dinner at Belagua Refuge, at 19:30 - so that’s my aim so far!`],
+   ["12:55",`Essentially climbing straight down 300m 😅`],
+   ["17:56",`Storm coming in, about 45’ out of the refuge
+Massive day
+But all OK 👍🏽`],
+   ["17:59",`Motto for the day: ‚no thinking, just walking’ 🚶‍♂️😅🙌🏽`],
+   ["18:16",`Truly appreciate all your support, it gives me a boost 💪`],
+   ["19:03",`Made it, dinner in 30’`],
+   ["21:40",`Tomorrow breakfast at the refuge, and most likely onto Lescun. Gonna walk with an English guy I met at dinner, who started same as me!`]
+  ]},
+{ n:7, date:"2026-08-17", dow:"Mon", title:"Company", from:"Belagua", to:"a river camp past Lescun",
+  a:[["Isaba",24.6,1178,1515,"5:04","9:39",109,152]],
+  routes:[], land:"ES → FR", wx:[], body:[], photos:18, videos:0,
+  night:["camp","Tent by a river, an hour past Lescun"],
+  w:[[42.933,-0.635,"Lescun","l"],[42.905,-0.645,"River camp past Lescun","nx"]],
+  log:[
+   ["11:48",`Walking with my walking partner, nice to have some company!`],
+   ["11:49",`Hopefully late lunch in Lescun, and then we see
+
+Also will try and send back some redundant items, the ultralight crew is on another level 🤣😅`],
+   ["16:04",`Arrived, lunch and rest.
+
+Longer stage than expected..!`],
+   ["16:04",`Lets see if we continue a bit more..!`],
+   ["18:54",`Lunch and groceries done, will head another hour or so and camp near a river, tomorrow another big day up to Col de Pau,  and up to refuge d’Arlet and further hopefully!`],
+   ["21:05",`Good night!`]
+  ]},
+{ n:8, date:"2026-08-18", dow:"Tue", title:"Col de Pau and sore feet", from:"the river camp", to:"a wild camp short of Candanchú",
+  a:[["Lescun",24.9,1414,1108,"3:39","10:25",111,158]],
+  routes:[], land:"FR", wx:[], body:["Boots too stiff and small"], photos:14, videos:0,
+  night:["camp","Wild camp before Candanchú, Chinese soup for dinner"],
+  w:[[42.868,-0.675,"Col de Pau",""],[42.838,-0.624,"Refuge d’Arlet",""],[42.812,-0.572,"Wild camp before Candanchú","nx"]],
+  log:[
+   ["08:13",`Morning!
+Brekky, and soon on the way! 💪`],
+   ["16:12",`Well arrived to Refuge d’Arlet around 2k, had lunch, rested, refilled and slowly heading back out!`],
+   ["16:14",`Now towards Col du Somport, and Candanchu (where I will look for other boots/high trail running shoes), as these very stiff and on the small side 😅 Causing all sorts of feet issues and pain..!
+
+Otherwise feeling good 💪`],
+   ["16:37",`Fortunately Candanchu has a ski/mountain store 🤗`],
+   ["16:38",`Aim will be to sleep a bit before, and go for breakfast and ‚shopping’ in the town!`],
+   ["20:38",`Found a spot, making chinese soup and going to bed
+
+Tired but good, feet not as good but hoping for fixes and better shoes tomorrow 🙏`],
+   ["20:39",`27km day, with 1400 D+, and about 1000 D-`]
+  ]},
+{ n:9, date:"2026-08-19", dow:"Wed", title:"New shoes in Candanchú", from:"the camp", to:"a wild camp at 1,600 m, via Candanchú",
+  a:[["Borce",20.5,1157,902,"3:54","8:15",111,152]],
+  routes:[], land:"FR → ES → FR", wx:["Evening storm"], body:["New shoes"], photos:7, videos:0,
+  night:["camp","Wild camp near a river at 1,600 m, through a storm"],
+  w:[[42.788,-0.530,"Candanchú","l"],[42.840,-0.470,"Wild camp at 1,600 m","nx"]],
+  log:[
+   ["11:48",`Only shop, only pair but we got’em 💪`],
+   ["11:49",`Now cortado, vichy catalan, lunch, shopping, and we see where next..!
+
+Nice to arrive to town in the morning for once 🙌🏽`],
+   ["11:49",`in Candanchu 🇪🇸`],
+   ["15:27",`Shoped, ate, got shoes, and now on the way!
+
+Towards Refuge de Pombie, probably stay a bit before in the wild.
+
+Though storms tomorrow afternoon….!`],
+   ["16:45",`Heading up, not sure about internet later on today.
+
+No news is good news :) that’s the plan for now, then 2 possible refuges tomorrow too to hide from the rain/storm around 16:00H.`]
+  ]},
+{ n:10, date:"2026-08-20", dow:"Thu", title:"Real mountains", from:"the 1,600 m camp", to:"Refuge d’Arrémoulit, 2,300 m, via Pombie",
+  a:[["Laruns",17.5,1764,1161,"3:18","8:36",113,162]],
+  routes:[], land:"FR", wx:["Storms","Fog"], body:[], photos:18, videos:0,
+  night:["camp","Outside at Arrémoulit in the rain, gear stored inside"],
+  w:[[42.836,-0.432,"Refuge de Pombie",""],[42.835,-0.384,"WhatsApp pin, 13:31","p"],[42.846,-0.337,"Refuge d’Arrémoulit","nl"]],
+  log:[
+   ["07:47",`Survived the ‚small’ evening storm at 1,600m, wild camping near a river.
+
+Now brekky and getting onto Pombie Refuge, and then pushing for the 2nd one in time before the larger storm in the afternoon, with 2 options of Refuges.`],
+   ["07:48",`Tagging along with my walking partner, making good teamwork and strong progress overall.
+
+Highlight of next days will be reaching Cirque de Gavarni!`],
+   ["07:48",`Now no shops for 2-3 days, not sure about network connection either.
+
+All good! 😊`],
+   ["10:31",`Aiming for Refuge d’Armoulette (smth like that)`],
+   ["11:17",`Storm/rain for afternoon and bad weather for the late evening, will aim to stay at Refuge Arrémoulit.
+
+Now at Pombie, coffee, ice-tea, pastry and we continue
+
+💪`],
+   ["13:31","Location shared: 42.835, -0.384","pin"],
+   ["21:55",`Hello hello!
+
+Beautiful and straight up climb to Refuge de Arremoulit, with a nice chain part, and a foggy lake!
+
+Tent is set up, but storms also here, so will aim to stay in the hall/reception. Altitude 2,300m.
+
+Next onto Refuge de Wallon, with a Pic potentially at Grande Fache. And then onto Gavarni but most likely with another stop in-between.`],
+   ["21:56",`Overall tired but good, real mountains finally herec after having entered the Central Pyrynees.`],
+   ["21:57",`Again network uncertain so updating sporadically.`]
+  ]},
+{ n:11, date:"2026-08-21", dow:"Fri", title:"Wallon, to heal up", from:"Arrémoulit", to:"Refuge Wallon",
+  a:[["Laruns",20.2,1001,1403,"3:29","9:07",108,160]],
+  routes:[], land:"FR", wx:["Rain overnight"], body:["Feet slowly better"], photos:10, videos:0,
+  night:["hut","Refuge Wallon, dinner and breakfast"],
+  w:[[42.822,-0.196,"Refuge Wallon","nl"]],
+  log:[
+   ["10:15",`Morning!
+
+On the way to refuge Wallon.
+
+Pretty funny and absurd night at the last Refuge (special needs group with guides 😌), slept outside in the rain but the gear was stored inside!
+
+All good, feet slowly better.
+
+When I get network potentially add a contact on my walking partner’s Garmin InReach 🧭.`],
+   ["19:44",`Hello! Arrived to Refuge de Wallon, staying here to heal up and rest.
+
+My walking partner went further to summit Vignemale tomorrow, and I will join him hopefully at the Refuge de Baysselance!
+
+And then onto Gavarni slowly but surely! 💪 🏔️`]
+  ]},
+{ n:12, date:"2026-08-22", dow:"Sat", title:"The high point, 2,728 m", from:"Wallon", to:"a wild camp below the glacier, via Bayssellance",
+  a:[["Cauterets",19.0,1558,1421,"2:57","10:16",109,157]],
+  routes:[], land:"FR", wx:["Cold","No network"], body:["Legs hurting","Left knee rough"], photos:6, videos:0,
+  night:["camp","Wild camp by the glacier river at about 1,800 m: rain, wind, cold"],
+  w:[[42.789,-0.144,"Refuge des Oulettes de Gaube",""],[42.776,-0.126,"Refuge de Bayssellance",""],[42.757,-0.090,"Wild camp, about 1,800 m","nx"]],
+  log:[
+   ["09:35",`Good morning! 🌅
+Had a good rest at the Wallon Refuge, had a dinner & breakfast; and met some nice people. Received a few energy bars as well! Heading up now to towards the refuge Oulettes de Gaune, with a stop and onto Baysselance at 2.6k m.
+
+Legs are hurting, feet are slowly better,and we’re back on the move!
+
+Will be joining my walking partner tonight hopefully and then onto Gavarni.
+
+There is no network anywhere so I hope this message passes, and will try to update as today goes by; today or tomorrow.
+
+Most likely Internet will come back tomorrow Sunday afternoon!`],
+   ["19:03",`Met my walking partner at the Refuge, we arrived 5min appart at around 17h. 🙌🏽
+
+Now climbing down to stay somewhere less high up over night, Refuge is nice but very small and busy, and at 2.6k m so quite cold potentially at night if sleeping outside…!
+
+No data so far, so updating as I go.
+
+Left knee a bit rough, tomorrow kind of rest day in Gavarni!
+
+Aiming for around 1.9k m in a valley, just before Gavarni 💪`]
+  ]},
+{ n:13, date:"2026-08-23", dow:"Sun", title:"Gavarnie", from:"the glacier camp", to:"Gavarnie",
+  a:[["Gavarnie-Gèdre",14.6,40,545,"2:20","4:05",79,106]],
+  routes:[], land:"FR", wx:["Rain","Wind","Cold"], body:["Knees: hike paused"], photos:42, videos:0, suspect:true,
+  night:["bed","An old-school mountain hotel in Gavarnie"],
+  w:[[42.733,-0.011,"Gavarnie","nl"]],
+  log:[
+   ["07:27",`Hello!
+Slept in the wild near the river flowing from the Glacier, at around 1.8k m. Rainy, windy and cold, but Gavarni today for a reset and rest day, and assessment of the knees…! 🦵`],
+   ["07:27",`There was no network for the last 2/3 days 😱😇`],
+   ["09:13",`Just reaching Gavarni slowly, close 275km done so far.
+
+Day 13.`],
+   ["15:56",`Hello!
+
+Quick update, had a good rest and a crepe, with Cidre Doux 🍻.
+
+Now resting at an old school Mountain Hotel in Gavarni town🏨
+
+Seems the knees have taken a serious beating, too serious to risk continuing up into a 5-day journey without any towns close by, and similarly to carry on for another 20 days or so…
+
+Meaning I will be looking at pausing the hike indefinitely, to ensure I recover properly and don’t do any permanent damage.
+
+Good thing is that it is rather a mechanical issue, not a strength or willpower one 🙌🏽🙌🏽
+
+Idea will be to grab a bus to Lourdes tomorrow, and after some prayers carry on to Barcelona via rail 🚃.`],
+   ["15:56",`A little bittersweet, but a lot of lessons learned and beautiful experiences, encounters and especially views.`],
+   ["15:57",`Thanks for following the journey and all the support 💪 🏔️`],
+   ["16:16",`Thanks to my walking partner too for the company and pics! 💪`]
+  ]}
+];
+
+// Garmin's own totals for the 15 recordings (they differ from the column sums by rounding only).
+const TOTAL = { km:300.9, up:16792, down:15305, moving:"56 h 56", recorded:"115 h 39", kcal:35200, high:2728, zones12:82 };
+const FINISH = { lat:42.483, lon:3.129, name:"Banyuls-sur-Mer" };
+
+const SAID = [
+ ["12 Aug, 08:45","“Yesterday only 15km”","15.9 km on 11 Aug","0.9 km under"],
+ ["13 Aug, 20:11","“With 1.5k D+”, sent before the last push to Les Aldudes","+1,824 m by the end of the day","consistent"],
+ ["14 Aug, 09:18","“33-35km total”","34.0 km on 13 Aug","inside your range"],
+ ["18 Aug, 20:39","“27km day, with 1400 D+, and about 1000 D-”","24.9 km, +1,414 m, −1,108 m","2.1 km over on distance; climb within 14 m"],
+ ["23 Aug, 09:13","“close 275km done so far”","286.4 km before that morning’s walk, 300.9 km at Gavarnie","about 11 km under"]
+];
+
+// Garmin tracks: [delta-coded lat,lon in 1e-4 degrees ; 60 altitude samples in metres], keyed by day of August 2026
+const TRK={"11":["433718,-17731;-16,-5;-48,36;-8,-4;-11,-21;-11,-8;-34,19;-31,1;3,-2;0,27;-10,7;-9,-7;-14,6;-19,-3;-12,-11;-16,25;-18,15;-6,32;-3,1;3,1;-9,0;1,-4;-1,7;0,-5;9,1;-2,-3;-10,5;-7,12;-1,-6;0,31;-10,23;9,-23;1,-23;6,-5;2,31;-27,47;-18,13;-2,9;-1,-5;-6,-1;-14,11;-10,-6;-19,11;-13,60;-11,34;4,6;-5,32;-5,2;-12,52;10,28;8,-3;-4,28;-6,8;-4,-7;-38,41;-25,7;-12,8;7,2;4,12;8,5;-3,28;6,18;-6,-5;-3,5;-14,-2;-10,5;-24,-16;-6,43;10,20;19,-1;8,12;1,10;-16,8;3,4;-14,15;0,14;5,-2;-5,16;2,15;8,-37","8,13,8,-2,0,1,5,6,15,20,42,36,19,15,9,12,9,7,10,10,9,10,7,7,5,9,6,8,13,16,35,50,58,77,134,162,218,278,303,365,419,470,466,462,469,470,442,380,299,291,269,276,261,264,269,284,295,301,282,267"],"12":["433198,-17026;-8,0;-4,-15;5,-44;-17,-14;12,-8;-5,-21;-15,-13;5,-27;-24,-16;-5,-13;10,1;-11,-1;6,13;24,18;-14,20;-47,22;-12,55;-10,-6;-17,7;20,32;5,42;21,25;2,49;-4,2;3,-14;-6,29;1,-11;-47,104;-5,-1;-25,40;-25,15;-12,-8;-8,18;14,27;-8,15;5,25;-5,26;13,16;-6,80;-7,-15;5,6;-14,4;-24,37;-6,23;-19,24;-12,4;-14,-11;-30,20;-6,35;-42,31;-6,16;7,22;-12,39;-19,-20;-7,6;-24,-4;-9,-22;-12,21;-25,-9;-21,-27;-4,20;-11,8;-3,15;-13,0;1,30;-27,1;-17,13;2,34;7,13;-3,10;-12,8;-8,25;-13,9;-14,23;-12,0;-31,21;-3,9;9,34;-9,7","270,260,278,272,282,317,294,266,302,307,369,402,460,524,556,566,499,405,380,377,371,319,343,342,315,291,285,293,316,342,357,344,282,245,219,190,163,150,153,180,208,231,251,276,347,372,379,408,421,427,444,446,442,473,454,461,461,485,479,473"],"13":["432485,-15945;-12,8;-3,-16;-53,13;-21,-39;-35,7;-8,50;19,137;-31,62;-29,-20;-18,3;-39,41;-16,31;-5,39;-41,41;-24,86;-25,43;-8,45;-55,69;-36,6;-14,-12;-89,10;-51,-29;-26,-2;-8,-26;6,-21;-4,18;-15,6;-36,-53;-23,-7;-29,51;-51,55;-59,3;-17,31;-51,41;-25,-5;-15,16;-2,-22;-12,-1;-14,32;-17,4;9,32;-46,27;9,25;-16,14;10,-26;-15,27;-28,11;-14,16;-26,5;-4,15;-27,14;-10,33;-24,39;-20,11;-37,101;-12,1;5,16;-39,49;0,41;-13,9;-8,26;3,76;-10,11;-27,86;11,36;5,-9;5,115;13,15;-12,13;3,20;-7,14;-8,-8;-41,5;-19,-16;-44,78;-12,-10;-15,4;-3,-13;-24,30","475,385,426,451,504,562,539,548,578,548,562,592,577,520,519,517,597,651,727,785,795,796,772,720,717,710,692,661,606,588,531,450,392,332,249,210,203,206,236,310,308,302,291,306,378,426,386,386,399,440,462,504,548,611,676,684,642,571,456,361"],"14":["430977,-14267;5,3;-11,16;12,26;-3,20;-28,61;-6,-2;2,7;-38,210;-45,28;-27,0;-24,17;-6,-11;-10,2;-11,17;-26,15;-47,58;-11,3;-29,45;-41,32;-68,6;-16,24;-19,5;-40,-4;-20,-23;-3,2;2,-3;-31,-13;-13,18;-45,33;-10,13;-22,-1;-17,-10;-24,19;10,64;-15,11;-23,47;-12,64;-6,13;-2,76;-7,22;2,20;-15,21;-18,9;2,29;-24,38;11,37;1,28;17,13;6,23;14,14;1,25;25,84;0,28;-10,15;-3,17;6,3;31,-8;11,22;18,20;14,0;8,10;5,-10;6,2;13,31;13,56;17,17;15,40;16,79;13,30;-9,37;0,58;-12,39;1,54;-7,5;-8,33;-41,58;5,12;-11,8;-4,15","379,400,502,527,581,632,671,685,743,808,856,897,801,742,844,893,926,936,934,922,917,931,962,1004,1030,1095,1074,1095,1132,1171,1165,1108,1079,1091,1074,1071,1083,1136,1186,1266,1338,1397,1421,1405,1364,1321,1294,1296,1298,1325,1339,1318,1285,1239,1211,1212,1141,1066,1006,971"],"15":["430334,-12158;0,23;17,1;-11,19;-2,39;15,45;-17,23;2,32;-31,29;-22,-9;-37,27;-33,42;-3,21;-39,62;-2,34;25,63;-24,24;-11,31;13,33;9,6;6,35;-10,6;-5,30;-10,2;-5,28;-13,9;-21,38;24,8;-13,15;0,16;19,6;-9,7;11,9;-6,10;5,21;-10,12;15,46;23,23;2,19;13,12;-2,-35;7,-17;6,3;46,70;4,19;-11,63;24,42;1,26;8,7;31,-7;-3,10;12,-1;2,12;23,2;25,67;7,26;-9,36;-30,25;-18,31;3,13;26,21;-1,25;15,18;-8,43;16,11;-4,4;75,20;31,-3;23,17;8,17;-2,14;9,18;-12,29;-14,6;2,35;-30,43;0,16;-9,7;-24,75;1,67","972,1017,1045,1020,1055,1026,1029,1032,1038,1061,1089,1098,1151,1166,1188,1199,1211,1222,1219,1121,1036,932,834,868,916,975,1027,1074,1159,1255,1264,1266,1280,1295,1356,1437,1438,1390,1324,1298,1246,1195,1115,998,1016,1038,1035,1068,1082,1089,1137,1185,1191,1204,1238,1276,1330,1327,1330,1322"],"16":["430335,-10338;-9,-8;-28,4;-15,-14;-4,-16;-29,-30;-1,-47;-14,-13;-15,2;-1,-15;-22,-31;-25,-5;-23,36;-62,-24;-18,28;-34,23;-3,26;20,89;-9,12;18,27;0,20;-67,12;-24,-9;-17,19;-19,-10;-7,13;2,28;-29,-12;-12,41;-31,-7;-23,16;-22,-6;3,87;-28,2;1,38;-16,5;-24,29;-31,-9;24,48;3,27;-26,120;-35,65;-32,18;-21,-4;-15,28;6,24;-10,49;-16,38;-23,8;-7,44;4,42;-25,76;3,26;14,18;-17,31;16,33;-9,15;8,47;15,22;37,2;8,145;-7,88;4,27;-49,23;-15,20;0,59;-24,47;0,157;-26,60;-22,18;-1,37;-20,14;-6,33;-21,21;3,28;-12,25;12,-1;18,27;-4,19;13,23","1317,1419,1430,1395,1419,1497,1551,1573,1599,1536,1577,1622,1578,1444,1320,1293,1328,1358,1414,1429,1481,1557,1553,1546,1540,1564,1577,1578,1594,1649,1587,1544,1553,1573,1614,1627,1643,1677,1730,1747,1736,1729,1667,1655,1656,1687,1700,1695,1710,1754,1613,1533,1439,1399,1373,1369,1368,1378,1420,1427"],"17":["429462,-8285;4,8;-12,203;-4,13;-8,-1;-6,34;8,25;-2,37;-11,43;4,44;-7,16;2,45;-14,29;-16,11;-2,25;-17,33;2,23;6,7;5,-5;7,19;8,5;1,71;5,24;-39,161;-15,22;-3,40;-11,10;0,20;-10,23;4,25;-8,15;-4,35;-5,9;-7,-2;37,74;12,76;18,47;4,53;15,23;2,20;15,15;11,58;-7,45;10,1;-3,8;5,6;-65,93;-4,50;5,6;-14,20;-3,21;-12,26;3,8;-20,72;12,81;-1,12;-6,-1;10,15;-7,15;6,21;-10,8;11,-5;-22,-3;-5,-7;-3,4;-13,-25;-7,-35;3,6;-13,-5;-7,12;-15,-7;-9,10;-18,-14;3,19;-6,2;-19,-10;-9,-16;0,10;-21,-29;-20,-5","1425,1421,1433,1467,1471,1455,1462,1496,1559,1626,1578,1573,1608,1655,1699,1703,1738,1787,1820,1849,1918,1972,2004,2033,2049,2027,1939,1872,1869,1835,1811,1719,1647,1553,1507,1433,1375,1330,1192,1104,1111,1109,1094,1073,1052,1043,1011,980,952,911,892,859,821,848,875,907,971,1017,1055,1060"],"18":["429082,-6454;-36,-18;-99,13;-29,-14;7,1;-10,-9;-6,-34;-54,-44;-6,-13;9,-4;-1,-28;-9,-19;2,-26;-11,4;18,-26;-5,26;-5,-11;-21,-10;-23,13;-8,-5;-8,24;-25,-6;-21,-20;-10,24;-1,28;-86,-8;-58,66;-28,87;8,22;-13,17;9,39;14,28;10,6;1,13;-13,16;-12,-6;-17,18;-44,77;-10,-6;-12,14;2,14;-44,51;-6,-6;-12,19;-14,-4;2,-6;-4,9;4,-13;-10,20;13,-20;-17,38;31,40;6,-2;-7,5;4,11;-12,-24;-14,18;-10,-5;-24,22;-18,65;-17,24;-9,46;8,64;11,21;-37,46;-3,17;-32,-38;-3,15;-20,16;2,-27;-15,-36;1,-12;-20,7;-6,25;2,-15;-13,6;-16,-11;-10,5;-49,-43;2,22","1089,1104,1118,1139,1187,1254,1280,1321,1359,1403,1475,1537,1642,1642,1686,1731,1792,1869,1924,1975,2054,2029,1989,1958,1956,1962,1943,1930,1946,1951,1940,1860,1861,1937,1998,1999,1998,1998,2001,1988,2021,2020,2001,1952,1893,1884,1875,1893,1900,1915,1845,1761,1679,1637,1624,1617,1520,1497,1414,1394"],"19":["428107,-5813;8,19;-9,32;7,35;-1,54;-13,23;-31,29;2,10;-31,4;-10,17;-6,-4;-14,19;-37,-2;1,11;-6,2;5,12;-33,-20;-11,-16;-22,-9;-6,-10;20,40;-5,5;2,6;-12,-6;-2,9;15,17;-30,-1;-10,7;2,13;-13,12;-11,54;7,57;8,21;0,42;15,27;4,-1;-10,0;6,-4;4,9;-5,-2;4,-9;2,19;21,33;23,10;10,-7;11,4;20,31;55,29;50,48;16,29;11,59;-3,9;10,11;18,-9;15,4;16,-7;14,6;16,-22;3,6;10,-8;14,17;-4,19;30,0;-2,40;19,15;35,5;5,28;28,18;14,22;4,19;-4,32;15,24;7,2;-2,13;9,18;6,-3;-4,17;4,12;-5,5;3,1","1382,1418,1473,1459,1467,1432,1406,1384,1390,1422,1417,1389,1336,1330,1346,1365,1413,1433,1472,1501,1544,1591,1622,1627,1612,1591,1568,1557,1559,1555,1568,1588,1612,1629,1642,1646,1660,1678,1703,1725,1730,1806,1852,1901,1966,2057,2079,2119,2177,2157,2127,2037,2008,1969,1950,1909,1830,1760,1680,1648"],"20":["428419,-4665;-23,44;0,16;8,10;-5,12;3,2;-24,37;0,9;-4,10;-17,7;-25,36;19,22;-14,13;8,46;-6,23;1,23;-3,17;16,6;12,22;-12,29;1,13;4,-1;-4,-3;1,10;-14,2;-8,9;2,16;8,0;8,15;-7,6;4,10;-4,1;-3,42;0,25;5,25;24,54;6,1;9,11;17,35;-7,24;4,46;-6,17;-7,8;4,0;-3,7;5,-1;-6,11;-12,8;-2,6;5,2;0,16;-14,10;-6,15;5,7;-3,7;3,4;11,5;11,15;-4,0;12,67;8,11;18,66;6,44;2,-4;3,15;2,40;9,15;5,-7;6,33;-5,26;7,31;-3,3;27,30;4,2;2,-5;1,14;3,1;-13,14","1655,1657,1765,1848,1918,1941,1992,2037,2066,2078,2110,2161,2197,2285,2254,2202,2125,2077,2031,2030,2004,1972,1903,1844,1812,1780,1741,1697,1663,1643,1624,1602,1564,1515,1469,1416,1356,1402,1437,1507,1565,1593,1653,1700,1747,1795,1848,1886,1943,2002,2061,2099,2164,2193,2262,2298,2335,2359,2311,2267"],"21":["428415,-3229;-19,14;-2,14;7,16;-6,9;-13,5;-9,22;-29,-26;0,22;-6,-1;2,10;-9,-8;-13,-2;-15,-24;-3,-18;-7,-6;-3,-13;-2,6;-5,-8;-15,12;-7,-6;-7,7;-35,122;0,28;-18,27;-14,45;-10,7;-5,17;7,32;-2,39;-9,9;3,3;-92,-87;18,36;39,34;1,8;28,11;5,-5;-6,0;6,2;-2,18;-9,27;-5,3;-4,28;-8,7;5,5;-6,8;2,21;-10,4;-3,31;2,25;4,5;-2,52;-22,85;-2,42;5,51;-1,29;9,16;7,42;-3,46;5,49;-3,16;21,42;6,52;-3,19;12,11;-5,8;9,10;3,22;-6,-5;5,27;-9,-3;19,30;-5,-2;2,5;-16,7;1,16;17,16;7,45;12,16","2271,2278,2334,2425,2387,2274,2247,2245,2232,2189,2178,2179,2168,2188,2158,2186,2204,2200,2153,2133,2122,2156,2161,2148,2145,2144,2144,2144,2144,2139,2146,2170,2156,2173,2141,2146,2186,2215,2244,2279,2334,2407,2532,2593,2628,2561,2487,2465,2434,2351,2286,2229,2169,2085,2024,1959,1923,1877,1861,1872"],"22":["428187,-1902;-10,11;-22,-9;-42,8;0,9;-29,8;-18,32;4,12;9,-4;-1,22;-17,16;-15,5;2,13;-26,21;-25,-8;-5,7;-22,8;-14,23;-17,0;-9,12;-8,-8;-7,5;-29,-10;-8,21;1,20;38,54;4,25;-7,26;-9,13;-9,1;-5,15;17,59;-9,2;-10,24;9,4;-2,7;7,7;1,13;8,1;18,24;-3,3;0,-9;3,6;-8,12;-40,25;25,17;-9,9;8,3;-4,4;4,10;-7,2;0,9;-49,-22;-30,0;-6,12;-18,10;-2,11;7,17;-8,53;-26,32;-14,-15;6,48;-8,12;-9,-8;1,6;-7,-2;-3,-20;-8,-2;-21,10;-4,-7;-2,11;-11,-14;-12,9;-2,25;-13,16;-3,15;-6,3;-11,-8;-5,13","1877,1845,1827,1860,1900,1954,1991,2023,2063,2115,2153,2193,2243,2254,2262,2290,2349,2400,2471,2519,2519,2470,2459,2460,2481,2555,2538,2445,2352,2275,2173,2152,2153,2155,2155,2199,2257,2305,2372,2424,2487,2526,2570,2616,2686,2702,2644,2493,2423,2350,2262,2217,2225,2133,2085,2045,2007,1978,1905,1873"],"23":["427589,-1024;-14,26;-8,46;4,4;-4,42;9,7;-3,23;-18,26;-10,37;-8,9;-4,13;5,22;-10,13;-11,7;-5,14;-14,5;-11,36;-12,13;-3,35;2,25;-3,7;9,22;-1,31;-2,11;-10,7;-5,22;5,31;9,10;4,14;-2,32;5,12;-4,40;-9,9;-6,29;-5,8;0,32;-4,16;-3,3;1,10;-5,12;-2,15;-17,30;-6,42;-6,-7;1,-11;-3,5;-7,39;-21,7;-13,14;-14,4;-10,23;0,6;2,-8;-3,-1;4,4;-1,-3;-3,3;0,-3;3,2;-2,-6;3,-1;-2,-2;0,12;-1,-17;1,6;-4,2;9,16;1,-4;-3,0;-7,-11;34,40;-37,-42;12,26;-7,-16;5,6;-8,-7;5,8;-4,-5;4,0","1878,1870,1853,1846,1845,1843,1834,1821,1802,1778,1755,1730,1719,1712,1698,1684,1683,1687,1694,1690,1679,1665,1655,1650,1634,1616,1585,1561,1541,1519,1507,1497,1484,1473,1463,1443,1419,1409,1400,1390,1382,1370,1366,1374,1374,1372,1374,1370,1371,1372,1374,1374,1373,1373,1374,1374,1375,1375,1373,1367"]};
+// Per-day extras read from the training dashboard's Garmin files (activities.json and data/tracks/*.json).
+// t0/t1 watch start and stop (local), e0/e1 altitude at start and end, lo/hi altitude range, tmin/tmax watch temperature,
+// z seconds in heart-rate zones 1-5, m where the watch was when each update was sent: time -> [flag, km of day, altitude]
+// flags: m on the move, b before the watch was started, a after it was stopped
+const X = {
+1:{t0:"12:49",t1:"19:36",e0:8,e1:267,lo:0,hi:482,tmin:27,tmax:34,steps:22256,cal:2252,z:[6062,5746,3917,3018,392],
+  m:{"13:42":["m",1.3,1],"17:59":["m",12.2,469],"18:00":["m",12.2,466],"19:32":["m",15.9,266]}},
+2:{t0:"09:30",t1:"20:34",e0:270,e1:473,lo:146,hi:570,tmin:26,tmax:36,steps:26654,cal:3335,z:[8017,10970,8099,2433,57],
+  stop:"Longest stop: 2 h 12 between the two recordings, from 13:51 to 16:03, at the lunch spot you pinned.",
+  m:{"08:45":["b",0,270],"13:01":["m",6.9,394],"13:02":["m",6.9,395],"21:31":["a",22.8,473],"21:33":["a",22.8,473],"21:34":["a",22.8,473]}},
+3:{t0:"07:59",t1:"21:36",e0:475,e1:363,lo:198,hi:814,tmin:23,tmax:36,steps:42668,cal:3276,z:[20927,10622,2605,114,0],
+  stop:"Longest stop: 2 h 39 in Elizondo, from 14:27.",
+  m:{"08:29":["m",1.0,406],"08:38":["m",1.5,445],"14:59":["m",20.6,204],"20:10":["m",28.7,468],"20:11":["m",28.7,467]}},
+4:{t0:"10:29",t1:"20:19",e0:379,e1:971,lo:376,hi:1432,tmin:24,tmax:33,steps:32914,cal:2978,z:[9016,8838,4620,128,0],
+  m:{"09:18":["b",0,379],"09:42":["b",0,379],"16:31":["m",14.0,1185],"17:57":["m",19.1,1365],"21:12":["a",27.9,971]}},
+5:{t0:"08:29",t1:"19:42",e0:972,e1:1322,lo:825,hi:1458,tmin:21,tmax:30,steps:33266,cal:2511,z:[10961,7847,2617,0,0],
+  stop:"Longest stop: 2 h 28 at the Iraty lunch stop, from 15:15.",
+  m:{"08:34":["m",0.3,1002],"08:39":["m",0.6,1032],"08:53":["m",1.4,1021],"09:28":["m",3.6,1036],"10:22":["m",6.0,1167],"15:30":["m",20.0,996],"15:32":["m",20.0,996],"17:40":["m",20.0,1016],"19:36":["m",26.7,1330]}},
+6:{t0:"08:07",t1:"18:48",e0:1317,e1:1427,lo:1285,hi:1809,tmin:20,tmax:31,steps:36748,cal:3341,z:[13302,13883,4108,18,0],
+  m:{"07:12":["b",0,1317],"11:27":["m",8.8,1344],"12:55":["m",13.6,1563],"17:56":["m",28.3,1424],"17:59":["m",28.5,1411],"18:16":["m",29.7,1374],"19:03":["a",32.0,1427],"21:40":["a",32.0,1427]}},
+7:{t0:"08:36",t1:"20:16",e0:1425,e1:1060,lo:815,hi:2063,tmin:20,tmax:33,steps:28242,cal:2897,z:[13399,8156,4382,0,0],
+  stop:"About three hours in Lescun: the track reaches the village at 15:51 and is still there at 18:54.",
+  m:{"11:48":["m",9.3,2019],"11:49":["m",9.3,2020],"16:04":["m",21.0,900],"18:54":["m",21.2,863],"21:05":["a",24.6,1060]}},
+8:{t0:"09:07",t1:"19:32",e0:1089,e1:1394,lo:1089,hi:2056,tmin:19,tmax:35,steps:28016,cal:3014,z:[14843,9600,4220,143,0],
+  m:{"08:13":["b",0,1089],"16:12":["m",15.8,1999],"16:14":["m",15.8,2000],"16:37":["m",16.1,1998],"16:38":["m",16.2,1998],"20:38":["a",24.9,1394],"20:39":["a",24.9,1394]}},
+9:{t0:"08:09",t1:"20:23",e0:1382,e1:1648,lo:1324,hi:2180,tmin:17,tmax:36,steps:24214,cal:2515,z:[14914,7741,2847,0,0],
+  stop:"At least 3 h 40 in Candanchú: there by 11:48, leaving at 15:27.",
+  m:{"11:48":["m",10.1,1556],"11:49":["m",10.1,1556],"15:27":["m",10.5,1569],"16:45":["m",14.7,1870]}},
+10:{t0:"08:32",t1:"17:10",e0:1655,e1:2267,lo:1356,hi:2365,tmin:19,tmax:32,steps:24880,cal:2793,z:[10940,7854,5871,87,0],
+  m:{"07:47":["b",0,1655],"07:48":["b",0,1655],"10:31":["m",4.0,2313],"11:17":["m",5.6,2031],"13:31":["m",11.0,1403],"21:55":["a",17.5,2267],"21:56":["a",17.5,2267],"21:57":["a",17.5,2267]}},
+11:{t0:"08:42",t1:"17:48",e0:2271,e1:1873,lo:1860,hi:2668,tmin:19,tmax:30,steps:20114,cal:2683,z:[15637,6298,3661,61,0],
+  m:{"10:15":["m",3.1,2189],"19:44":["a",20.2,1873]}},
+12:{t0:"09:30",t1:"20:06",e0:1877,e1:1873,lo:1827,hi:2728,tmin:15,tmax:31,steps:16446,cal:2975,z:[14085,10460,3373,20,0],
+  m:{"09:35":["m",0.2,1855],"19:03":["m",16.4,2217]}},
+13:{t0:"08:33",t1:"12:38",e0:1878,e1:1367,lo:1365,hi:1878,tmin:22,tmax:31,steps:8270,cal:646,z:[723,0,0,0,0],
+  m:{"07:27":["b",0,1878],"09:13":["m",1.8,1818],"15:56":["a",14.6,1367],"15:57":["a",14.6,1367],"16:16":["a",14.6,1367]}}
+};
+const PINCHECK = {"13:02":"40 m from the Garmin track at that minute","13:31":"350 m from the Garmin track at that minute"};
+const STEPS = 344688, ZONES = [152827,108014,50320,6022,449];
+
+const PH={"11":[["001.jpg",825,1100,"13:20",0.0,13,null],["002.jpg",825,1100,"13:20",0.0,13,null],["003.jpg",825,1100,"13:20",0.0,13,null],["004.jpg",825,1100,"13:20",0.0,13,null],["005.jpg",825,1100,"13:20",0.0,13,null],["006.jpg",825,1100,"13:20",0.0,13,null],["007.jpg",825,1100,"13:20",0.0,13,null],["008.jpg",825,1100,"13:20",0.0,13,null],["009.jpg",825,1100,"13:20",0.0,13,null],["014.jpg",825,1100,"13:21",0.0,13,null],["015.jpg",1100,619,"13:35",0.7,6,null],["016.jpg",619,1100,"15:56",8.8,74,null],["020.jpg",619,1100,"17:10",10.3,342,null],["021.jpg",619,1100,"17:13",10.5,360,null],["022.jpg",619,1100,"17:24",10.7,411,null],["023.jpg",619,1100,"18:00",12.3,464,null],["028.jpg",619,1100,"18:11",12.6,391,null],["029.jpg",619,1100,"18:58",14.5,270,null],["030.jpg",1100,619,"21:07",null,null,"a"],["031.jpg",1100,619,"21:07",null,null,"a"],["032.jpg",1100,619,"21:27",null,null,"a"],["033.jpg",1100,619,"21:27",null,null,"a"],["034.jpg",1100,619,"21:27",null,null,"a"],["035.jpg",619,1100,"21:27",null,null,"a"],["036.jpg",619,1100,"21:28",null,null,"a"]],"12":[["037.jpg",619,1100,"10:38",3.1,311,null],["038.jpg",619,1100,"11:34",4.4,414,null],["039.jpg",1100,619,"12:09",5.5,565,null],["040.jpg",619,1100,"12:09",5.5,565,null],["041.jpg",619,1100,"12:24",6.2,497,null],["042.jpg",619,1100,"13:06",7.0,384,null],["043.jpg",1100,619,"15:06",null,null,"g"],["044.jpg",619,1100,"16:27",9.5,295,null],["045.jpg",619,1100,"16:27",9.5,295,null],["046.jpg",619,1100,"16:31",9.7,289,null],["047.jpg",1100,619,"16:42",10.4,292,null],["048.jpg",619,1100,"18:47",17.0,344,null],["049.jpg",1100,619,"18:47",17.0,344,null],["050.jpg",619,1100,"18:55",17.4,376,null],["051.jpg",619,1100,"19:39",20.5,474,null],["052.jpg",619,1100,"19:40",20.6,477,null],["053.jpg",619,1100,"19:49",21.1,462,null],["054.jpg",619,1100,"20:27",22.7,476,null],["055.jpg",619,1100,"20:28",22.7,478,null],["056.jpg",1100,619,"20:28",22.7,478,null],["057.jpg",619,1100,"20:39",null,null,"a"]],"13":[["058.jpg",619,1100,"07:49",null,null,"b"],["059.jpg",1100,619,"08:16",0.9,402,null],["060.jpg",1100,619,"08:16",0.9,402,null],["061.jpg",619,1100,"08:28",1.0,404,null],["062.jpg",619,1100,"08:29",1.0,407,null],["063.jpg",619,1100,"08:38",1.6,445,null],["064.jpg",1100,619,"08:45",2.0,471,null],["065.jpg",619,1100,"09:04",3.1,565,null],["066.jpg",619,1100,"09:07",3.3,550,null],["067.jpg",619,1100,"09:29",4.8,567,null],["068.jpg",1100,619,"09:29",4.8,567,null],["069.jpg",619,1100,"10:48",9.8,650,null],["070.jpg",619,1100,"10:49",9.8,654,null],["071.jpg",619,1100,"10:49",9.8,654,null],["072.jpg",619,1100,"11:08",10.5,736,null],["073.jpg",619,1100,"11:21",11.2,800,null],["074.jpg",619,1100,"11:40",12.5,801,null],["075.jpg",619,1100,"13:17",16.4,595,null],["076.jpg",619,1100,"14:52",20.6,204,null],["077.jpg",619,1100,"14:53",20.6,204,null],["078.jpg",619,1100,"17:16",21.1,205,null],["079.jpg",619,1100,"19:00",25.3,379,null],["080.jpg",619,1100,"19:00",25.3,379,null],["081.jpg",619,1100,"19:38",27.2,383,null],["082.jpg",1100,619,"19:38",27.2,383,null],["083.jpg",619,1100,"19:58",28.0,419,null],["084.jpg",619,1100,"20:11",28.7,467,null],["085.jpg",619,1100,"20:46",30.6,625,null],["086.jpg",1100,619,"20:51",30.8,650,null],["087.jpg",619,1100,"23:48",null,null,"a"],["088.jpg",619,1100,"23:49",null,null,"a"]],"14":[["089.jpg",619,1100,"09:13",null,null,"b"],["090.jpg",619,1100,"09:13",null,null,"b"],["091.jpg",619,1100,"09:41",null,null,"b"],["092.jpg",619,1100,"09:42",null,null,"b"],["093.jpg",619,1100,"11:01",1.1,502,null],["095.jpg",619,1100,"12:09",3.3,685,null],["096.jpg",619,1100,"12:15",3.6,718,null],["097.jpg",619,1100,"12:15",3.6,718,null],["098.jpg",1100,619,"12:45",5.1,896,null],["099.jpg",619,1100,"15:05",10.9,1014,null],["100.jpg",619,1100,"16:29",13.9,1185,null],["101.jpg",619,1100,"16:29",13.9,1185,null],["102.jpg",1100,619,"16:33",14.2,1166,null],["103.jpg",619,1100,"17:06",16.7,1064,null],["104.jpg",619,1100,"17:07",16.8,1062,null],["105.jpg",619,1100,"17:07",16.8,1062,null],["106.jpg",619,1100,"17:07",16.8,1062,null],["107.jpg",619,1100,"17:47",18.7,1310,null],["108.jpg",1100,619,"18:06",19.6,1430,null],["109.jpg",1100,619,"18:06",19.6,1430,null],["110.jpg",619,1100,"18:34",21.3,1320,null],["111.jpg",619,1100,"19:50",26.1,1214,null],["112.jpg",1100,619,"19:51",26.1,1212,null],["113.jpg",1100,619,"19:51",26.1,1212,null],["114.jpg",1100,619,"19:52",26.1,1211,null],["115.jpg",1100,619,"21:11",null,null,"a"],["116.jpg",619,1100,"21:11",null,null,"a"]],"15":[["117.jpg",1100,619,"08:32",0.2,993,null],["118.jpg",1100,619,"08:32",0.2,993,null],["119.jpg",619,1100,"08:38",0.6,1029,null],["120.jpg",619,1100,"08:38",0.6,1029,null],["121.jpg",619,1100,"09:06",2.1,1028,null],["122.jpg",619,1100,"09:07",2.2,1027,null],["123.jpg",619,1100,"10:05",5.1,1111,null],["124.jpg",619,1100,"10:16",5.8,1161,null],["125.jpg",619,1100,"10:22",6.1,1166,null],["126.jpg",619,1100,"10:47",7.6,1221,null],["127.jpg",619,1100,"10:47",7.6,1221,null],["128.jpg",619,1100,"11:40",10.1,829,null],["130.jpg",619,1100,"14:19",16.1,1437,null],["132.jpg",619,1100,"15:36",20.0,997,null],["133.jpg",619,1100,"17:45",20.1,1015,null],["134.jpg",619,1100,"17:56",21.1,1034,null],["136.jpg",619,1100,"21:23",null,null,"a"]],"16":[["137.jpg",619,1100,"08:20",0.5,1412,null],["138.jpg",619,1100,"08:20",0.5,1412,null],["139.jpg",1100,619,"08:26",0.8,1433,null],["140.jpg",619,1100,"08:50",2.0,1408,null],["141.jpg",619,1100,"09:00",2.4,1451,null],["144.jpg",1100,619,"09:36",3.5,1545,null],["146.jpg",1100,619,"10:10",4.4,1599,null],["147.jpg",619,1100,"10:13",4.5,1596,null],["148.jpg",619,1100,"12:25",11.8,1554,null],["149.jpg",1100,619,"13:01",14.0,1587,null],["150.jpg",619,1100,"13:11",14.7,1577,null],["151.jpg",1100,619,"14:48",19.3,1632,null],["153.jpg",619,1100,"15:48",22.4,1720,null],["154.jpg",619,1100,"16:08",23.1,1662,null],["155.jpg",1100,619,"16:23",24.1,1668,null],["156.jpg",619,1100,"16:24",24.1,1671,null],["157.jpg",619,1100,"16:24",24.1,1671,null],["158.jpg",1100,619,"16:26",24.2,1683,null],["159.jpg",1100,619,"16:56",25.8,1719,null],["160.jpg",1100,619,"16:56",25.8,1719,null],["161.jpg",619,1100,"18:13",29.5,1377,null],["162.jpg",619,1100,"18:15",29.7,1375,null],["164.jpg",619,1100,"18:20",30.0,1371,null],["165.jpg",619,1100,"18:20",30.0,1371,null],["166.jpg",619,1100,"18:45",31.8,1438,null],["167.jpg",619,1100,"20:12",null,null,"a"],["168.jpg",619,1100,"21:05",null,null,"a"],["169.jpg",619,1100,"21:37",null,null,"a"],["170.jpg",619,1100,"21:37",null,null,"a"],["171.jpg",619,1100,"21:37",null,null,"a"],["172.jpg",619,1100,"21:38",null,null,"a"],["173.jpg",1100,619,"21:43",null,null,"a"],["174.jpg",619,1100,"21:44",null,null,"a"]],"17":[["176.jpg",619,1100,"06:34",null,null,"b"],["177.jpg",619,1100,"07:00",null,null,"b"],["178.jpg",825,1100,"09:41",3.9,1600,null],["179.jpg",825,1100,"09:41",3.9,1600,null],["180.jpg",825,1100,"09:41",3.9,1600,null],["181.jpg",1100,619,"09:42",4.0,1599,null],["182.jpg",619,1100,"09:42",4.0,1599,null],["183.jpg",825,1100,"09:45",4.1,1581,null],["185.jpg",1100,619,"10:52",7.1,1791,null],["186.jpg",1100,619,"11:13",7.9,1858,null],["187.jpg",619,1100,"11:36",8.7,1963,null],["188.jpg",619,1100,"11:37",8.7,1969,null],["189.jpg",1100,619,"11:41",9.0,1983,null],["190.jpg",1100,619,"11:47",9.3,2019,null],["191.jpg",619,1100,"12:22",10.6,2005,null],["194.jpg",1100,619,"12:24",10.7,1987,null],["195.jpg",619,1100,"13:39",13.6,1579,null],["196.jpg",619,1100,"14:50",17.9,1074,null],["197.jpg",1100,825,"14:56",18.4,1051,null],["198.jpg",1100,619,"14:59",18.5,1043,null],["199.jpg",1100,619,"14:59",18.5,1043,null],["200.jpg",619,1100,"15:00",18.6,1042,null],["201.jpg",1100,619,"15:12",19.5,985,null],["202.jpg",619,1100,"15:30",20.5,906,null],["203.jpg",619,1100,"16:59",21.1,895,null],["206.jpg",1100,619,"21:05",null,null,"a"]],"18":[["207.jpg",1100,619,"08:12",null,null,"b"],["208.jpg",619,1100,"09:22",1.1,1131,null],["209.jpg",619,1100,"10:29",4.6,1526,null],["210.jpg",1100,619,"11:46",7.5,1945,null],["211.jpg",619,1100,"11:47",7.5,1942,null],["212.jpg",1100,825,"12:39",9.0,2015,null],["213.jpg",1100,619,"12:39",9.0,2015,null],["214.jpg",1100,619,"12:39",9.0,2015,null],["215.jpg",1100,619,"12:39",9.0,2015,null],["216.jpg",1100,619,"12:40",9.1,2010,null],["217.jpg",619,1100,"12:48",9.6,1962,null],["218.jpg",825,1100,"13:38",12.4,1957,null],["219.jpg",619,1100,"14:04",13.3,1859,null],["220.jpg",1100,619,"14:30",14.2,1998,null],["221.jpg",1100,619,"15:52",15.6,1999,null],["222.jpg",1100,619,"15:52",15.6,1999,null],["223.jpg",619,1100,"15:53",15.6,2000,null],["224.jpg",1100,619,"15:53",15.6,2000,null],["225.jpg",1100,619,"15:53",15.6,2000,null],["226.jpg",619,1100,"16:00",15.7,2001,null],["227.jpg",619,1100,"16:36",16.1,1998,null],["228.jpg",619,1100,"17:49",20.1,1892,null],["229.jpg",619,1100,"17:58",20.6,1913,null],["230.jpg",1100,825,"18:02",20.8,1917,null],["231.jpg",1100,619,"18:02",20.8,1917,null],["232.jpg",1100,619,"18:31",21.9,1679,null],["233.jpg",619,1100,"18:42",22.4,1635,null],["234.jpg",1100,619,"18:42",22.4,1635,null],["235.jpg",619,1100,"18:45",22.6,1636,null],["236.jpg",619,1100,"18:45",22.6,1636,null],["237.jpg",619,1100,"18:55",22.9,1620,null],["239.jpg",619,1100,"19:56",null,null,"a"],["240.jpg",825,1100,"20:02",null,null,"a"],["241.jpg",619,1100,"20:38",null,null,"a"],["242.jpg",619,1100,"20:49",null,null,"a"],["243.jpg",1100,619,"20:53",null,null,"a"]],"19":[["244.jpg",619,1100,"06:57",null,null,"b"],["245.jpg",619,1100,"06:57",null,null,"b"],["246.jpg",619,1100,"07:49",null,null,"b"],["247.jpg",619,1100,"10:45",8.1,1621,null],["248.jpg",619,1100,"10:47",8.2,1616,null],["249.jpg",619,1100,"10:51",8.6,1598,null],["250.jpg",619,1100,"11:24",10.1,1555,null],["251.jpg",619,1100,"11:48",10.1,1556,null],["252.jpg",619,1100,"15:22",10.2,1563,null],["253.jpg",1100,619,"15:27",10.5,1570,null],["254.jpg",619,1100,"15:54",12.5,1659,null],["255.jpg",619,1100,"16:38",14.4,1830,null],["256.jpg",619,1100,"16:38",14.4,1830,null],["257.jpg",619,1100,"16:45",14.7,1872,null],["258.jpg",1100,619,"17:15",15.8,2076,null],["259.jpg",1100,619,"17:19",16.1,2082,null],["260.jpg",1100,619,"17:24",16.2,2092,null],["261.jpg",619,1100,"17:27",16.2,2091,null],["262.jpg",1100,619,"17:49",16.7,2179,null],["263.jpg",825,1100,"17:59",17.2,2167,null],["264.jpg",619,1100,"18:18",17.9,2007,null],["265.jpg",619,1100,"18:51",18.6,1952,null],["266.jpg",825,1100,"18:56",19.0,1953,null],["267.jpg",825,1100,"18:56",19.0,1953,null],["268.jpg",825,1100,"18:56",19.0,1953,null],["269.jpg",619,1100,"19:31",20.2,1663,null],["270.jpg",825,1100,"19:47",20.5,1648,null],["271.jpg",825,1100,"19:47",20.5,1648,null],["272.jpg",1100,825,"19:47",20.5,1648,null],["273.jpg",825,1100,"19:48",20.5,1649,null],["274.jpg",619,1100,"20:35",null,null,"a"],["275.jpg",1100,619,"20:35",null,null,"a"],["276.jpg",1100,619,"20:40",null,null,"a"],["277.jpg",1100,619,"20:49",null,null,"a"],["278.jpg",1100,619,"20:49",null,null,"a"]],"20":[["280.jpg",1100,619,"07:05",null,null,"b"],["281.jpg",1100,619,"07:05",null,null,"b"],["282.jpg",619,1100,"07:05",null,null,"b"],["283.jpg",619,1100,"07:27",null,null,"b"],["284.jpg",619,1100,"09:14",1.3,1920,null],["285.jpg",619,1100,"10:10",3.4,2165,null],["286.jpg",1100,619,"10:30",4.0,2313,null],["287.jpg",1100,619,"10:44",4.4,2209,null],["288.jpg",619,1100,"10:59",5.1,2066,null],["289.jpg",619,1100,"11:19",5.6,2029,null],["290.jpg",619,1100,"13:20",10.6,1356,null],["291.jpg",619,1100,"15:02",13.2,1771,null],["292.jpg",1100,619,"15:45",14.5,1994,null],["293.jpg",619,1100,"15:45",14.5,1994,null],["294.jpg",825,1100,"16:31",16.0,2260,null],["295.jpg",1100,825,"16:31",16.0,2260,null],["297.jpg",1100,619,"16:45",16.4,2325,null],["303.jpg",1100,619,"17:03",17.2,2310,null],["304.jpg",619,1100,"17:03",17.2,2310,null],["305.jpg",619,1100,"18:33",null,null,"a"],["306.jpg",1100,619,"18:34",null,null,"a"],["307.jpg",619,1100,"18:38",null,null,"a"],["308.jpg",1100,619,"18:41",null,null,"a"]],"21":[["309.jpg",1100,619,"08:50",0.3,2279,null],["310.jpg",619,1100,"09:23",1.2,2445,null],["311.jpg",619,1100,"09:38",1.5,2343,null],["312.jpg",619,1100,"10:00",2.3,2243,null],["313.jpg",1100,619,"10:06",2.6,2247,null],["315.jpg",619,1100,"10:06",2.6,2247,null],["316.jpg",619,1100,"10:26",3.6,2169,null],["318.jpg",825,1100,"10:34",4.0,2187,null],["319.jpg",619,1100,"10:35",4.0,2182,null],["320.jpg",619,1100,"11:56",7.8,2148,null],["321.jpg",1100,619,"11:56",7.8,2148,null],["322.jpg",1100,619,"12:54",10.0,2139,null],["323.jpg",1100,619,"13:10",10.6,2170,null],["324.jpg",619,1100,"14:50",14.4,2531,null],["325.jpg",619,1100,"14:51",14.5,2531,null],["326.jpg",1100,619,"14:51",14.5,2531,null],["327.jpg",1100,619,"14:51",14.5,2531,null],["328.jpg",1100,619,"14:51",14.5,2531,null],["329.jpg",619,1100,"15:45",15.3,2601,null],["330.jpg",619,1100,"17:06",19.0,1937,null],["332.jpg",619,1100,"17:38",20.2,1869,null],["333.jpg",619,1100,"18:54",null,null,"a"],["334.jpg",1100,619,"18:55",null,null,"a"],["335.jpg",825,1100,"19:57",null,null,"a"],["336.jpg",619,1100,"21:36",null,null,"a"],["337.jpg",619,1100,"21:36",null,null,"a"]],"22":[["338.jpg",1100,619,"09:11",null,null,"b"],["339.jpg",1100,619,"09:12",null,null,"b"],["340.jpg",619,1100,"09:42",0.7,1833,null],["341.jpg",619,1100,"09:42",0.7,1833,null],["342.jpg",619,1100,"10:23",2.9,2121,null],["343.jpg",619,1100,"10:23",2.9,2121,null],["344.jpg",1100,619,"10:23",2.9,2121,null],["345.jpg",619,1100,"10:26",3.1,2138,null],["346.jpg",1100,619,"10:46",3.8,2239,null],["347.jpg",1100,619,"11:17",5.4,2389,null],["348.jpg",1100,619,"11:17",5.4,2389,null],["349.jpg",619,1100,"11:17",5.4,2389,null],["350.jpg",619,1100,"11:31",5.9,2493,null],["352.jpg",619,1100,"11:37",6.1,2520,null],["353.jpg",619,1100,"11:46",6.6,2507,null],["354.jpg",619,1100,"11:46",6.6,2507,null],["355.jpg",1100,619,"12:02",7.4,2462,null],["356.jpg",619,1100,"12:13",7.9,2527,null],["357.jpg",619,1100,"12:13",7.9,2527,null],["358.jpg",619,1100,"12:21",8.2,2595,null],["359.jpg",1100,619,"12:21",8.2,2595,null],["360.jpg",1100,619,"12:43",8.7,2439,null],["361.jpg",619,1100,"12:43",8.7,2439,null],["362.jpg",619,1100,"13:01",9.3,2276,null],["363.jpg",619,1100,"13:01",9.3,2276,null],["364.jpg",619,1100,"13:14",9.7,2176,null],["365.jpg",619,1100,"13:14",9.7,2176,null],["366.jpg",1100,619,"14:55",10.9,2154,null],["367.jpg",619,1100,"15:04",11.2,2192,null],["368.jpg",619,1100,"15:04",11.2,2192,null],["369.jpg",619,1100,"15:07",11.3,2203,null],["370.jpg",1100,619,"15:46",12.3,2388,null],["371.jpg",1100,619,"15:46",12.3,2388,null],["372.jpg",619,1100,"16:21",13.4,2550,null],["373.jpg",619,1100,"16:22",13.4,2553,null],["374.jpg",619,1100,"16:26",13.6,2572,null],["375.jpg",1100,619,"16:26",13.6,2572,null],["376.jpg",619,1100,"16:26",13.6,2572,null],["377.jpg",619,1100,"16:27",13.6,2576,null],["378.jpg",619,1100,"16:27",13.6,2576,null],["379.jpg",619,1100,"16:27",13.6,2576,null],["380.jpg",619,1100,"16:36",13.9,2619,null],["381.jpg",619,1100,"16:55",14.2,2726,null],["382.jpg",619,1100,"16:55",14.2,2726,null],["383.jpg",1100,619,"17:58",15.0,2638,null],["384.jpg",1100,619,"18:08",15.1,2628,null],["385.jpg",619,1100,"18:08",15.1,2628,null],["386.jpg",1100,619,"18:32",15.4,2434,null],["387.jpg",619,1100,"18:32",15.4,2434,null],["389.jpg",1100,619,"19:00",16.4,2216,null],["390.jpg",619,1100,"19:00",16.4,2216,null],["391.jpg",1100,619,"19:15",16.8,2214,null],["392.jpg",619,1100,"19:21",17.0,2162,null],["393.jpg",619,1100,"19:21",17.0,2162,null],["394.jpg",1100,619,"19:26",17.2,2105,null],["395.jpg",619,1100,"19:26",17.2,2105,null],["396.jpg",619,1100,"19:31",17.5,2078,null],["397.jpg",619,1100,"19:31",17.5,2078,null],["398.jpg",619,1100,"19:47",18.3,2004,null],["399.jpg",619,1100,"19:47",18.3,2004,null],["400.jpg",619,1100,"20:05",19.0,1872,null],["401.jpg",619,1100,"20:05",19.0,1872,null]],"23":[["402.jpg",1100,619,"06:55",null,null,"b"],["403.jpg",1100,619,"06:55",null,null,"b"],["404.jpg",619,1100,"07:26",null,null,"b"],["405.jpg",619,1100,"07:47",null,null,"b"],["406.jpg",1100,619,"08:23",null,null,"b"],["407.jpg",619,1100,"08:57",1.0,1848,null],["408.jpg",619,1100,"09:10",1.7,1825,null],["409.jpg",619,1100,"12:25",13.4,1374,null],["410.jpg",619,1100,"12:53",null,null,"a"],["411.jpg",619,1100,"13:02",null,null,"a"],["412.jpg",1100,619,"13:07",null,null,"a"],["413.jpg",619,1100,"13:52",null,null,"a"],["414.jpg",1100,619,"13:52",null,null,"a"],["421.jpg",619,1100,"22:22",null,null,"a"]],"24":[["422.jpg",1100,619,"08:15",null,null,null],["423.jpg",619,1100,"12:07",null,null,null],["424.jpg",619,1100,"13:00",null,null,null],["425.jpg",619,1100,"13:25",null,null,null],["426.jpg",619,1100,"13:29",null,null,null],["427.jpg",619,1100,"13:39",null,null,null],["428.jpg",619,1100,"13:39",null,null,null],["429.jpg",619,1100,"13:39",null,null,null],["430.jpg",619,1100,"13:39",null,null,null],["431.jpg",619,1100,"13:48",null,null,null],["432.jpg",619,1100,"13:48",null,null,null],["433.jpg",619,1100,"14:10",null,null,null],["434.jpg",1100,619,"14:10",null,null,null],["435.jpg",1100,619,"14:18",null,null,null],["444.jpg",619,1100,"18:27",null,null,null],["445.jpg",619,1100,"18:31",null,null,null],["446.jpg",619,1100,"19:01",null,null,null],["448.jpg",619,1100,"19:48",null,null,null],["449.jpg",619,1100,"19:48",null,null,null],["450.jpg",1100,619,"19:48",null,null,null],["451.jpg",619,1100,"19:55",null,null,null],["452.jpg",619,1100,"19:56",null,null,null],["453.jpg",1100,619,"19:57",null,null,null],["454.jpg",619,1100,"19:57",null,null,null],["456.jpg",619,1100,"20:17",null,null,null],["457.jpg",619,1100,"20:38",null,null,null],["458.jpg",619,1100,"20:38",null,null,null],["459.jpg",619,1100,"20:38",null,null,null]]};
+
+(function(){
+"use strict";
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function S(tag,attrs,kids){const e=document.createElementNS(NS,tag);for(const k in (attrs||{}))e.setAttribute(k,attrs[k]);
+  for(const c of [].concat(kids||[])){if(c!=null)e.append(c)}return e}
+function H(tag,attrs,kids){const e=document.createElement(tag);for(const k in (attrs||{})){if(k==="text")e.textContent=attrs[k];else e.setAttribute(k,attrs[k])}
+  for(const c of [].concat(kids||[])){if(c!=null)e.append(c)}return e}
+const nf=new Intl.NumberFormat("en-GB"), f1=n=>n.toFixed(1), fm=n=>nf.format(Math.round(n));
+const mins=s=>{const [h,m]=s.split(":").map(Number);return h*60+m}, hm=m=>Math.floor(m/60)+":"+String(Math.round(m%60)).padStart(2,"0");
+const MONTH_DAY=d=>Number(d.date.slice(8))+" Aug";
+
+// ---- derived day figures
+DAYS.forEach(d=>{
+  d.km=d.a.reduce((s,a)=>s+a[1],0); d.up=d.a.reduce((s,a)=>s+a[2],0); d.down=d.a.reduce((s,a)=>s+a[3],0);
+  d.mov=d.a.reduce((s,a)=>s+mins(a[4]),0); d.rec=d.a.reduce((s,a)=>s+mins(a[5]),0);
+  d.hr=Math.round(d.a.reduce((s,a)=>s+a[6]*mins(a[5]),0)/d.rec); d.hrmax=Math.max(...d.a.map(a=>a[7]));
+  d.ke=d.km+d.up/100;
+});
+const MAXKE=Math.max(...DAYS.map(d=>d.ke));
+
+// ---- small settings store (text and colour edits, this browser only)
+const LS={get(k,def){try{const v=localStorage.getItem("hrp26."+k);return v?JSON.parse(v):def}catch(e){return def}},
+  set(k,v){try{localStorage.setItem("hrp26."+k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem("hrp26."+k)}catch(e){}}};
+// ---- tooltip + shared day highlight
+const tip=$("#tip");
+function showTip(text,ev){tip.textContent=text;tip.style.display="block";moveTip(ev)}
+function moveTip(ev){const pad=14,w=tip.offsetWidth,h=tip.offsetHeight;let x=ev.clientX+pad,y=ev.clientY+pad;
+  if(x+w>innerWidth-8)x=ev.clientX-w-pad;if(y+h>innerHeight-8)y=ev.clientY-h-pad;tip.style.left=Math.max(8,x)+"px";tip.style.top=Math.max(8,y)+"px"}
+function hideTip(){tip.style.display="none"}
+function dayTip(d){return "Day "+d.n+" · "+d.dow+" "+MONTH_DAY(d)+"\n"+f1(d.km)+" km · +"+fm(d.up)+" m · −"+fm(d.down)+" m\nRecorded "+hm(d.rec)+" · moving "+hm(d.mov)+
+  "\nAvg HR "+d.hr+" · max "+d.hrmax+(d.suspect?" (heart rate not reliable)":"")+"\nKm-effort "+f1(d.ke)}
+function focusDay(n){$$(".col").forEach(e=>e.classList.toggle("dim",n!=null&&+e.dataset.d!==n));
+  $$(".leg").forEach(e=>{const on=n==null||+e.dataset.d===n;e.style.opacity=on?1:.25})}
+function bindDay(el,d){el.addEventListener("pointerenter",ev=>{focusDay(d.n);showTip(dayTip(d),ev)});el.addEventListener("pointermove",moveTip);
+  el.addEventListener("pointerleave",()=>{focusDay(null);hideTip()});el.addEventListener("click",()=>{hideTip();focusDay(null);location.hash="day-"+d.n})}
+
+// ---- hero figures
+function renderFigs(){const box=$("#figs");const items=[
+  [f1(TOTAL.km)+" km","walked in 13 days"],["+"+fm(TOTAL.up)+" m","climbed"],["−"+fm(TOTAL.down)+" m","descended"],
+  [TOTAL.recorded,"recorded, "+TOTAL.moving+" of it moving"],[fm(TOTAL.high)+" m","highest point, 22 Aug"],[fm(STEPS),"steps, ≈"+fm(TOTAL.kcal)+" kcal"]];
+  items.forEach(([b,s])=>box.append(H("div",{class:"fig"},[H("b",{text:b}),H("span",{class:"mono",text:s})])))}
+
+// ---- projections and track decoding
+const KX=Math.cos(43*Math.PI/180);
+function projector(b,W,pad){const sc=(W-2*pad)/((b.e-b.w)*KX);const Hh=(b.n-b.s)*sc+2*pad;
+  return {W,H:Hh,sc,x:lon=>pad+(lon-b.w)*KX*sc,y:lat=>pad+(b.n-lat)*sc}}
+function decode(L){let la=0,lo=0;return L.split(";").map(p=>{const q=p.split(",");la+=+q[0];lo+=+q[1];return [la/1e4,lo/1e4]})}
+let OFF=0;DAYS.forEach(d=>{const t=TRK[+d.date.slice(8)];d.line=decode(t[0]);d.elev=t[1].split(",").map(Number);Object.assign(d,X[d.n]);d.off=OFF;OFF+=d.km});
+const elevAt=(d,km)=>{const f=Math.max(0,Math.min(1,km/d.km))*(d.elev.length-1),i=Math.floor(f),j=Math.min(d.elev.length-1,i+1);return d.elev[i]+(f-i)*(d.elev[j]-d.elev[i])};
+const pathOf=(pts,P)=>"M"+pts.map(p=>P.x(p[1]).toFixed(1)+" "+P.y(p[0]).toFixed(1)).join("L");
+
+// ---- hero strip: Atlantic to Mediterranean
+function renderStrip(){const b={w:-1.95,e:3.32,n:43.47,s:42.36},P=projector(b,1200,26);
+  const svg=S("svg",{viewBox:"0 0 "+P.W+" "+(P.H+54),"aria-hidden":"true"});
+  for(let lon=-1.5;lon<=3;lon+=.5){svg.append(S("line",{x1:P.x(lon),x2:P.x(lon),y1:10,y2:P.H-6,stroke:"var(--line)","stroke-width":1}));
+    svg.append(S("text",{x:P.x(lon)+4,y:20,fill:"var(--muted)","font-family":"var(--mono)","font-size":11},[(lon<0?Math.abs(lon)+"°W":lon===0?"0°":lon+"°E")]))}
+  const pts=DAYS.flatMap(d=>d.line.filter((p,i)=>i%3===0||i===d.line.length-1)),path=pathOf(pts,P);
+  const G=DAYS[12].line[DAYS[12].line.length-1],Hd=DAYS[0].line[0];const gx=P.x(G[1]),gy=P.y(G[0]),bx=P.x(FINISH.lon),by=P.y(FINISH.lat),hx=P.x(Hd[1]),hy=P.y(Hd[0]);
+  svg.append(S("line",{x1:gx,y1:gy,x2:bx,y2:by,stroke:"var(--muted)","stroke-width":2,"stroke-dasharray":"2 8","stroke-linecap":"round"}));
+  let len=0;for(let i=1;i<pts.length;i++)len+=Math.hypot(P.x(pts[i][1])-P.x(pts[i-1][1]),P.y(pts[i][0])-P.y(pts[i-1][0]));
+  svg.append(S("path",{d:path,class:"done",fill:"none",stroke:"var(--blaze)","stroke-width":4,"stroke-linejoin":"round","stroke-linecap":"round",style:"--len:"+Math.ceil(len)}));
+  DAYS.forEach(d=>{const w=d.line[d.line.length-1];svg.append(S("circle",{cx:P.x(w[1]),cy:P.y(w[0]),r:3.2,fill:"var(--surface)",stroke:"var(--blaze)","stroke-width":1.5}))});
+  const T=(x,y,t,a,w)=>S("text",{x,y,"text-anchor":a||"start",fill:"var(--ink)","font-family":"var(--display)","font-size":20,"font-weight":w||700,style:"font-stretch:80%"},[t]);
+  const M=(x,y,t,a)=>S("text",{x,y,"text-anchor":a||"start",fill:"var(--muted)","font-family":"var(--mono)","font-size":11.5,"letter-spacing":".05em"},[t]);
+  svg.append(S("circle",{cx:hx,cy:hy,r:6,fill:"var(--blaze)"}),T(hx+12,hy-10,"Hendaye"),M(hx+112,hy-11,"ATLANTIC · 11 AUG"));
+  svg.append(S("circle",{cx:gx,cy:gy,r:6,fill:"var(--blaze)"}),T(gx+2,gy+30,"Gavarnie","middle"),M(gx+2,gy+46,"DAY 13 · 23 AUG","middle"));
+  svg.append(S("circle",{cx:bx,cy:by,r:6,fill:"var(--surface)",stroke:"var(--muted)","stroke-width":2}),T(bx+8,by+30,FINISH.name,"end",500),M(bx+8,by+46,"MEDITERRANEAN · THE PLAN","end"));
+  // share bar: west–east distance by longitude
+  const share=(G[1]-Hd[1])/(FINISH.lon-Hd[1]),y=P.H+22;
+  svg.append(S("rect",{x:hx,y:y,width:bx-hx,height:8,rx:4,fill:"var(--line)"}),S("rect",{x:hx,y:y,width:gx-hx,height:8,rx:4,fill:"var(--blaze)"}));
+  svg.append(M(hx,y+26,Math.round(share*100)+"% OF THE WEST–EAST DISTANCE WALKED"),M(bx,y+26,Math.round((1-share)*100)+"% LEFT TO THE SEA","end"));
+  $("#strip").append(svg)}
+
+// ---- detail map (recorded Garmin track)
+const PLACES=[[43.3718,-1.7731,"Hendaye",12,-10,"start",1],[43.1459,-1.5161,"Elizondo",-12,16,"end",1],[43.1005,-1.4317,"Les Aldudes",-14,22,"end",0],[43.0361,-1.2345,"Refugio de Azpegi",-6,30,"middle",0],
+  [43.0427,-1.0386,"Chalets d’Iraty",8,-16,"start",0],[42.9462,-0.839,"Refugio de Belagua",-12,28,"end",0],[42.934,-0.635,"Lescun",10,-12,"start",1],[42.789,-0.5303,"Candanchú",0,26,"middle",1],
+  [42.8474,-0.3407,"Refuge d’Arrémoulit",-8,-24,"start",0],[42.8199,-0.195,"Refuge Wallon",10,-14,"start",0],[42.7351,-0.0097,"Gavarnie",0,30,"middle",0]];
+const DOTS=[[43.0342,-1.0855,"Lunch stop in the Iraty forest, day 5"],[42.8406,-0.6155,"Refuge d’Arlet, day 8"],[42.8354,-0.4267,"Refuge de Pombie, day 10"]];
+const PINS=[[43.311,-1.691,"Location you shared on WhatsApp, 12 Aug 13:02",2],[42.835,-0.384,"Location you shared on WhatsApp, 20 Aug 13:31",10]];
+function renderMap(){const host=$("#map");host.textContent="";const all=DAYS.flatMap(d=>d.line);
+  const lats=all.map(p=>p[0]),lons=all.map(p=>p[1]);
+  const b={w:Math.min(...lons)-.07,e:Math.max(...lons)+.07,n:Math.max(...lats)+.06,s:Math.min(...lats)-.065},P=projector(b,1000,26);
+  const svg=S("svg",{viewBox:"0 0 "+P.W+" "+P.H.toFixed(0),role:"img","aria-label":"Map of the recorded track from Hendaye to Gavarnie, one leg per day"});
+  for(let lon=Math.ceil(b.w*4)/4;lon<b.e;lon+=.25){svg.append(S("line",{x1:P.x(lon),x2:P.x(lon),y1:0,y2:P.H,stroke:"var(--line)","stroke-width":1}));
+    svg.append(S("text",{x:P.x(lon)+4,y:14,fill:"var(--muted)","font-family":"var(--mono)","font-size":10},[Math.abs(lon).toFixed(2)+(lon<0?"°W":"°E")]))}
+  for(let lat=Math.ceil(b.s*4)/4;lat<b.n;lat+=.25){svg.append(S("line",{x1:0,x2:P.W,y1:P.y(lat),y2:P.y(lat),stroke:"var(--line)","stroke-width":1}));
+    svg.append(S("text",{x:6,y:P.y(lat)-4,fill:"var(--muted)","font-family":"var(--mono)","font-size":10},[lat.toFixed(2)+"°N"]))}
+  const kmpx=P.sc/111.2,sx=P.W-40-20*kmpx,sy=40;
+  svg.append(S("line",{x1:sx,x2:sx+20*kmpx,y1:sy,y2:sy,stroke:"var(--ink)","stroke-width":2}),S("text",{x:sx+10*kmpx,y:sy-7,"text-anchor":"middle",fill:"var(--ink)","font-family":"var(--mono)","font-size":11},["20 km"]));
+  const gLegs=S("g"),gPts=S("g"),gLab=S("g");svg.append(gLegs,gPts,gLab);
+  DOTS.forEach(w=>{const c=S("circle",{cx:P.x(w[1]),cy:P.y(w[0]),r:3.5,fill:"var(--blaze)",stroke:"var(--surface)","stroke-width":1.5});c.append(S("title",{},[w[2]]));gPts.append(c)});
+  PLACES.forEach(w=>{const x=P.x(w[1]),y=P.y(w[0]);if(w[6])gPts.append(S("circle",{cx:x,cy:y,r:4,fill:"var(--blaze)",stroke:"var(--surface)","stroke-width":2}));
+    gLab.append(S("text",{x:x+w[3],y:y+w[4],"text-anchor":w[5],fill:"var(--ink)","font-family":"var(--display)","font-size":15,"font-weight":600,
+      style:"font-stretch:82%;paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round;pointer-events:none"},[w[2]]))});
+  DAYS.forEach(d=>{const dd=pathOf(d.line,P),e=d.line[d.line.length-1],x=P.x(e[1]),y=P.y(e[0]);
+    const gl=S("g",{class:"leg","data-d":d.n,style:"transition:opacity .15s"}),g=S("g",{class:"leg","data-d":d.n,style:"transition:opacity .15s;cursor:pointer"});
+    gl.append(S("path",{d:dd,fill:"none",stroke:"var(--blaze)","stroke-width":2.6,"stroke-linejoin":"round","stroke-linecap":"round"}),S("path",{d:dd,fill:"none",stroke:"transparent","stroke-width":16,style:"cursor:pointer"}));
+    const c=S("circle",{cx:x,cy:y,r:10,fill:"var(--surface)",stroke:"var(--ink)","stroke-width":1.6});c.append(S("title",{},["Night "+d.n+": "+d.night[1]+", "+fm(d.e1)+" m"]));
+    g.append(c,S("text",{x:x,y:y+4,"text-anchor":"middle",fill:"var(--ink)","font-family":"var(--mono)","font-size":10.5,"font-weight":500,style:"pointer-events:none"},[String(d.n)]));
+    bindDay(gl,d);bindDay(g,d);gLegs.append(gl);gPts.append(g)});
+  PINS.forEach(w=>{const x=P.x(w[1]),y=P.y(w[0]);const r=S("rect",{x:x-5,y:y-5,width:10,height:10,transform:"rotate(45 "+x+" "+y+")",fill:"var(--ice)",stroke:"var(--surface)","stroke-width":2});r.append(S("title",{},[w[2]]));gPts.append(r)});
+  const h=DAYS[0].line[0];svg.append(S("circle",{cx:P.x(h[1]),cy:P.y(h[0]),r:6,fill:"var(--blaze)",stroke:"var(--surface)","stroke-width":2}));
+  host.append(svg);
+  $("#mapLegend").innerHTML='<span><i style="width:18px;height:18px;border:1.6px solid var(--ink);border-radius:50%"></i>Night, by day number</span>'+
+    '<span><i style="width:9px;height:9px;background:var(--ice);transform:rotate(45deg)"></i>Location you shared on WhatsApp</span>'+
+    '<span><i style="width:9px;height:9px;background:var(--blaze);border-radius:50%"></i>Place named in an update</span>';
+  $("#mapNote").textContent="The line is your recorded Garmin track, simplified to 80 points a day. Each leg starts where the watch was started, so the short gaps between some days are real. The two locations you shared on WhatsApp fall 40 m and 350 m from the track at the minute you sent them."}
+
+// ---- charts
+function axisBand(i,left,band){return left+i*band}
+function chartLoad(){const W=1000,Hh=300,L=44,R=10,T=18,B=40,band=(W-L-R)/13,bw=band*.6,max=60,y=v=>T+(Hh-T-B)*(1-v/max);
+  const svg=S("svg",{viewBox:"0 0 "+W+" "+Hh,role:"img","aria-label":"Stacked bars of daily kilometre-effort: distance plus climb divided by 100"});
+  [0,20,40,60].forEach(v=>{svg.append(S("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--line)","stroke-width":1}),S("text",{x:L-8,y:y(v)+4,"text-anchor":"end"},[String(v)]))});
+  const top3=[...DAYS].sort((a,b)=>b.ke-a.ke).slice(0,3).map(d=>d.n);
+  DAYS.forEach((d,i)=>{const x=axisBand(i,L,band)+(band-bw)/2,g=S("g",{class:"col","data-d":d.n});
+    const yk=y(d.km),yt=y(d.ke);
+    g.append(S("rect",{x,y:yk,width:bw,height:y(0)-yk,fill:"var(--ice)"}));
+    if(yk-2-yt>8)g.append(S("path",{d:"M"+x+" "+(yk-2)+"V"+(yt+4)+"q0-4 4-4H"+(x+bw-4)+"q4 0 4 4V"+(yk-2)+"Z",fill:"var(--blaze)"}));
+    else g.append(S("rect",{x,y:yk-2-Math.max(2,yk-2-yt),width:bw,height:Math.max(2,yk-2-yt),rx:1,fill:"var(--blaze)"}));
+    if(top3.includes(d.n)||d.n===1||d.n===13)g.append(S("text",{x:x+bw/2,y:yt-6,"text-anchor":"middle",class:"val"},[f1(d.ke)]));
+    g.append(S("text",{x:x+bw/2,y:Hh-B+16,"text-anchor":"middle",class:"val"},["Day "+d.n]),S("text",{x:x+bw/2,y:Hh-B+30,"text-anchor":"middle"},[MONTH_DAY(d)]));
+    const hit=S("rect",{x:axisBand(i,L,band),y:T,width:band,height:Hh-T,class:"hit"});g.append(hit);bindDay(g,d);svg.append(g)});
+  $("#chLoad").append(svg)}
+function smallChart(host,label,draw,ticks,min,max,fmt){const W=360,Hh=220,L=42,R=6,T=12,B=24,band=(W-L-R)/13,y=v=>T+(Hh-T-B)*(1-(v-min)/(max-min));
+  const svg=S("svg",{viewBox:"0 0 "+W+" "+Hh,role:"img","aria-label":label});
+  ticks.forEach(v=>{svg.append(S("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:v===0&&min<0?"var(--muted)":"var(--line)","stroke-width":1}),S("text",{x:L-6,y:y(v)+4,"text-anchor":"end"},[fmt?fmt(v):String(v)]))});
+  const ctx={svg,W,Hh,L,T,B,band,y,x:i=>L+i*band+band/2};
+  const after=draw(ctx);
+  DAYS.forEach((d,i)=>{const g=S("g",{class:"col","data-d":d.n});ctx.mark(g,d,i);
+    if(d.n===1||d.n===7||d.n===13)g.append(S("text",{x:ctx.x(i),y:Hh-6,"text-anchor":"middle"},[String(d.n)]));
+    g.append(S("rect",{x:L+i*band,y:T,width:band,height:Hh-T,class:"hit"}));bindDay(g,d);svg.append(g)});
+  if(after)after();host.append(svg)}
+function charts(){chartLoad();
+  smallChart($("#chUpDown"),"Bars of metres climbed and descended per day",c=>{const bw=c.band*.56;
+    c.mark=(g,d,i)=>{const x=c.x(i)-bw/2;g.append(S("rect",{x,y:c.y(d.up),width:bw,height:c.y(0)-c.y(d.up)-1,rx:2,fill:"var(--blaze)"}),
+      S("rect",{x,y:c.y(0)+1,width:bw,height:c.y(-d.down)-c.y(0)-1,rx:2,fill:"var(--muted)"}))}},[-2000,-1000,0,1000,2000],-2100,2100,v=>(v>0?"+":v<0?"−":"")+fm(Math.abs(v)));
+  smallChart($("#chHours"),"Bars of recorded and moving hours per day",c=>{const bw=c.band*.62,bi=c.band*.3;
+    c.mark=(g,d,i)=>{g.append(S("rect",{x:c.x(i)-bw/2,y:c.y(d.rec/60),width:bw,height:c.y(0)-c.y(d.rec/60),rx:2,fill:"var(--line)"}),
+      S("rect",{x:c.x(i)-bi/2,y:c.y(d.mov/60),width:bi,height:c.y(0)-c.y(d.mov/60),rx:2,fill:"var(--ink)"}))}},[0,4,8,12],0,12.5,v=>v+" h");
+  smallChart($("#chHr"),"Line of average heart rate per day",c=>{
+    const ok=DAYS.filter(d=>!d.suspect);const path="M"+ok.map(d=>c.x(d.n-1).toFixed(1)+" "+c.y(d.hr).toFixed(1)).join("L");
+    c.svg.append(S("path",{d:path,fill:"none",stroke:"var(--ink)","stroke-width":2,"stroke-linejoin":"round"}));
+    c.mark=(g,d,i)=>{g.append(S("circle",{cx:c.x(i),cy:c.y(d.hr),r:4.5,fill:d.suspect?"var(--surface)":"var(--ink)",stroke:d.suspect?"var(--muted)":"var(--surface)","stroke-width":2,"stroke-dasharray":d.suspect?"2 2":""}));
+      if(d.n===2||d.n===4)g.append(S("text",{x:c.x(i),y:c.y(d.hr)+(d.n===2?-10:18),"text-anchor":"middle",class:"val"},[String(d.hr)]))}},[80,100,120],70,134,v=>String(v));
+  // tables
+  const t=$("#actTable");t.innerHTML="<thead><tr><th>Day</th><th>Date</th><th>Garmin title</th><th class=r>km</th><th class=r>Climb</th><th class=r>Descent</th><th class=r>Recorded</th><th class=r>Moving</th><th class=r>Avg / max HR</th></tr></thead>";
+  const tb=H("tbody");DAYS.forEach(d=>d.a.forEach(a=>{const tr=H("tr");[d.n,d.dow+" "+MONTH_DAY(d),a[0]].forEach(v=>tr.append(H("td",{text:String(v)})));
+    [f1(a[1]),"+"+fm(a[2])+" m","−"+fm(a[3])+" m",a[5],a[4],a[6]+" / "+a[7]].forEach(v=>tr.append(H("td",{class:"r",text:v})));tb.append(tr)}));
+  const tot=H("tr");["","","Total (Garmin)"].forEach(v=>tot.append(H("th",{text:v})));[f1(TOTAL.km),"+"+fm(TOTAL.up)+" m","−"+fm(TOTAL.down)+" m","115:39","56:56",""].forEach(v=>tot.append(H("th",{class:"r",text:v})));
+  tb.append(tot);t.append(tb);
+  const zt=ZONES.reduce((a,b)=>a+b,0),zb=$("#zoneTotal");ZONES.forEach((v,i)=>{const pc=v/zt*100;
+    zb.append(H("div",{class:"zrow"},[H("span",{class:"mono",text:"Zone "+(i+1)}),H("div",{class:"ztrack"},[H("i",{class:"z"+(i+1),style:"width:"+Math.max(pc,.4).toFixed(1)+"%"})]),H("span",{class:"mono num",text:(pc<1?pc.toFixed(1):Math.round(pc))+"% · "+Math.round(v/3600)+" h"})]))});
+  const s=$("#saidTable");s.innerHTML="<thead><tr><th>Sent</th><th>You wrote</th><th>Garmin recorded</th><th>Gap</th></tr></thead>";
+  const sb=H("tbody");SAID.forEach(r=>{const tr=H("tr");r.forEach((v,i)=>tr.append(H("td",{text:v,style:i===0?"white-space:nowrap;font-family:var(--mono);font-size:.78rem":""})));sb.append(tr)});s.append(sb)}
+
+// ---- timeline
+function renderDays(){const list=$("#dayList"),ticks=$("#ticks");
+  DAYS.forEach(d=>{ticks.append(H("a",{href:"#day-"+d.n,text:String(d.n),"aria-label":"Day "+d.n,"data-t":d.n}));
+    const art=H("article",{class:"day",id:"day-"+d.n});
+    art.append(H("div",{class:"rail"},[H("div",{class:"n"},[H("small",{text:"Day"}),String(d.n).padStart(2,"0")]),H("div",{class:"d",text:d.dow+" "+MONTH_DAY(d)})]));
+    const body=H("div",{class:"body"});body.append(H("span",{class:"blaze","aria-hidden":"true"}));
+    body.append(H("h3",{"data-k":"d"+d.n+"-t",text:d.title}));
+    body.append(H("p",{class:"leg","data-k":"d"+d.n+"-leg",text:"From "+d.from+" to "+d.to}));
+    const chips=H("div",{class:"chips"});chips.append(H("span",{class:"chip",text:d.land}));
+    d.routes.forEach(r=>chips.append(H("span",{class:"chip route",text:r})));d.wx.forEach(r=>chips.append(H("span",{class:"chip wx",text:r})));d.body.forEach(r=>chips.append(H("span",{class:"chip body",text:r})));
+    body.append(chips);
+    const dl=H("dl",{class:"stats"});
+    [["Distance",f1(d.km)," km"],["Climb","+"+fm(d.up)," m"],["Descent","−"+fm(d.down)," m"],["Recorded",hm(d.rec),""],["Moving",hm(d.mov),""],["Avg / max HR",d.hr+" / "+d.hrmax,""]]
+      .forEach(([k,v,u])=>{const dd=H("dd",{},[v]);if(u)dd.append(H("small",{text:u}));dl.append(H("div",{},[H("dt",{text:k}),dd]))});
+    body.append(dl);
+    const bar=H("div",{class:"bar"},[H("i",{class:"km",style:"width:"+(d.km/MAXKE*100).toFixed(1)+"%"}),H("i",{class:"up",style:"width:"+(d.up/100/MAXKE*100).toFixed(1)+"%"})]);
+    body.append(H("div",{class:"meter"},[H("span",{text:"Load"}),bar,H("span",{class:"num",text:f1(d.ke)+" km-effort"})]));
+    if(d.a.length>1)body.append(H("p",{class:"note",text:"Two Garmin recordings this day: "+d.a.map(a=>a[0]+" "+f1(a[1])+" km").join(" and ")+"."}));
+    body.append(H("p",{class:"facts mono",text:"Watch running "+d.t0+"–"+d.t1+" · altitude "+fm(d.lo)+"–"+fm(d.hi)+" m · "+fm(d.steps)+" steps · "+fm(d.cal)+" kcal · watch thermometer "+d.tmin+"–"+d.tmax+" °C"}));
+    body.append(zoneBar(d.z));
+    if(d.stop)body.append(H("p",{class:"note",text:d.stop}));
+    if(d.suspect)body.append(H("p",{class:"note",text:"The 79 bpm average is not reliable: the watch logged only 12 minutes of heart-rate zone data on this walk. Distance and altitude come from the GPS track."}));
+    body.append(dayViz(d));
+    const ul=H("ul",{class:"log"});
+    d.log.forEach((m,i)=>{const li=H("li",m[2]?{class:"pin"}:{});const pos=(d.m||{})[m[0]];
+      const where=m[2]?PINCHECK[m[0]]:pos?(pos[0]==="m"?"km "+pos[1].toFixed(1)+" · "+fm(pos[2])+" m":pos[0]==="b"?"before setting off · "+fm(pos[2])+" m":"after stopping · "+fm(pos[2])+" m"):"";
+      const cell=H("div",{},[H("p",m[2]?{text:m[1]}:{"data-k":"d"+d.n+"-m"+i,text:m[1]})]);if(where)cell.append(H("span",{class:"where mono",text:where}));
+      li.append(H("time",{text:m[0]}),cell);ul.append(li)});
+    body.append(ul);
+    body.append(H("p",{class:"night"},[H("b",{text:"Night "+d.n+" · "+fm(d.e1)+" m"}),H("span",{"data-k":"d"+d.n+"-night",text:d.night[1]})]));
+    body.append(gallery(d.n+10,"Day "+d.n));art.append(body);list.append(art)});
+  if((PH[24]||[]).length){const art=H("article",{class:"day",id:"day-after"});
+    art.append(H("div",{class:"rail"},[H("div",{class:"n"},[H("small",{text:"After"}),"+1"]),H("div",{class:"d",text:"Mon 24 Aug"})]));
+    const body=H("div",{class:"body"});body.append(H("span",{class:"blaze","aria-hidden":"true"}),H("h3",{"data-k":"after-t",text:"The day after"}),
+      H("p",{class:"leg","data-k":"after-leg",text:"No recording. Your plan on the 23rd was a bus to Lourdes, then the train to Barcelona."}),gallery(24,"The day after"));
+    art.append(body);list.append(art)}
+  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const n=e.target.id.slice(4);$$("#ticks a").forEach(a=>a.classList.toggle("on",a.dataset.t===n))}})},{rootMargin:"-35% 0px -60% 0px"});
+    $$(".day").forEach(a=>io.observe(a))}}
+
+// ---- photos: PH[day of August] = [[file, width, height, time taken, km of day or null, altitude or null], ...]
+const LBX={dom:0,i:0};
+function showLB(){const list=PH[LBX.dom]||[],p=list[LBX.i];if(!p)return;const d=DAYS.find(q=>q.n===LBX.dom-10);
+  $("#lbImg").src="p/"+p[0];$("#lbImg").alt="Photo taken at "+p[3];
+  $("#lbCap").textContent=(d?"Day "+d.n+" · "+d.dow+" "+MONTH_DAY(d):LBX.dom+" Aug")+" · "+p[3]+(p[4]!=null?" · km "+p[4].toFixed(1)+" · "+fm(p[5])+" m":p[6]==="b"?" · before setting off":p[6]==="a"?" · after the day's walk":p[6]==="g"?" · during a break in the recording":"")+"   ("+(LBX.i+1)+" of "+list.length+")"}
+function openLB(dom,i){LBX.dom=dom;LBX.i=i;showLB();$("#lightbox").classList.add("open");$("#lbClose").focus()}
+function stepLB(k){const n=(PH[LBX.dom]||[]).length;if(!n)return;LBX.i=(LBX.i+k+n)%n;showLB()}
+function gallery(dom,label){const list=PH[dom]||[],w=H("div",{class:"photos"});
+  if(!list.length){w.append(H("p",{class:"mono",text:"No photos for this day."}));return w}
+  w.append(H("p",{class:"mono ph-head",text:list.length+" photos, in the order they were taken"}));
+  const g=H("div",{class:"grid"});
+  list.forEach((p,i)=>{const fig=H("figure",{tabindex:"0",role:"button","aria-label":"Open photo taken at "+p[3]});
+    fig.append(H("img",{src:"p/"+p[0],alt:label+", photo taken at "+p[3],loading:"lazy",decoding:"async",width:p[1],height:p[2]}),H("figcaption",{text:p[3]}));
+    fig.addEventListener("click",()=>openLB(dom,i));fig.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openLB(dom,i)}});g.append(fig)});
+  w.append(g);return w}
+// ---- elevation profile of the whole walk
+function renderProfile(){const host=$("#profile");host.textContent="";const pts=[];
+  DAYS.forEach(d=>d.elev.forEach((e,i)=>pts.push([d.off+d.km*i/(d.elev.length-1),e,d.n])));
+  const dist=OFF,W=1000,Hh=290,L=52,R=12,T=30,B=30,lo=0,hi=3000,x=v=>L+(W-L-R)*v/dist,y=v=>T+(Hh-T-B)*(1-(v-lo)/(hi-lo));
+  const svg=S("svg",{viewBox:"0 0 "+W+" "+Hh,role:"img","aria-label":"Elevation profile of the 301 km walked, by day"});
+  DAYS.forEach(d=>{if(d.n%2===0)svg.append(S("rect",{x:x(d.off),y:T,width:x(d.off+d.km)-x(d.off),height:Hh-T-B,fill:"var(--line)",opacity:.35}));
+    svg.append(S("text",{x:(x(d.off)+x(d.off+d.km))/2,y:T-10,"text-anchor":"middle"},[String(d.n)]))});
+  svg.append(S("text",{x:L-6,y:T-10,"text-anchor":"end"},["Day"]));
+  for(let v=lo;v<=hi;v+=1000)svg.append(S("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--line)","stroke-width":1}),S("text",{x:L-6,y:y(v)+4,"text-anchor":"end"},[fm(v)+" m"]));
+  const line="M"+pts.map(p=>x(p[0]).toFixed(1)+" "+y(p[1]).toFixed(1)).join("L");
+  svg.append(S("path",{d:line+"L"+x(dist)+" "+y(lo)+"L"+x(0)+" "+y(lo)+"Z",fill:"var(--contour)",opacity:.25}),S("path",{d:line,fill:"none",stroke:"var(--contour)","stroke-width":2,"stroke-linejoin":"round"}));
+  DAYS.forEach(d=>{const c=S("circle",{cx:x(d.off+d.km),cy:y(d.e1),r:4,fill:"var(--surface)",stroke:"var(--ink)","stroke-width":1.6});svg.append(c)});
+  const top=pts.reduce((a,p)=>p[1]>a[1]?p:a,pts[0]);
+  svg.append(S("line",{x1:x(top[0]),x2:x(top[0]),y1:y(top[1])-6,y2:y(top[1])-22,stroke:"var(--ink)","stroke-width":1}),S("text",{x:x(top[0])-6,y:y(top[1])-18,"text-anchor":"end",class:"val"},[fm(TOTAL.high)+" m, day 12"]));
+  for(let k=0;k<=dist;k+=50)svg.append(S("text",{x:x(k),y:Hh-8,"text-anchor":k===0?"start":"middle"},[k+" km"]));
+  const cur=S("line",{y1:T,y2:Hh-B,stroke:"var(--ink)","stroke-width":1,visibility:"hidden"}),dot=S("circle",{r:4.5,fill:"var(--contour)",stroke:"var(--surface)","stroke-width":2,visibility:"hidden"});
+  const hit=S("rect",{x:L,y:T,width:W-L-R,height:Hh-T-B,class:"hit"});svg.append(cur,dot,hit);
+  hit.addEventListener("pointermove",ev=>{const r=svg.getBoundingClientRect(),px=(ev.clientX-r.left)/r.width*W,km=(px-L)/(W-L-R)*dist;let b=pts[0];for(const p of pts){if(Math.abs(p[0]-km)<Math.abs(b[0]-km))b=p}
+    cur.setAttribute("x1",x(b[0]));cur.setAttribute("x2",x(b[0]));cur.setAttribute("visibility","visible");dot.setAttribute("cx",x(b[0]));dot.setAttribute("cy",y(b[1]));dot.setAttribute("visibility","visible");
+    const d=DAYS[b[2]-1];showTip("Day "+b[2]+" · "+d.dow+" "+MONTH_DAY(d)+"\nkm "+f1(b[0])+" of the walk · "+fm(b[1])+" m",ev)});
+  hit.addEventListener("pointerleave",()=>{cur.setAttribute("visibility","hidden");dot.setAttribute("visibility","hidden");hideTip()});
+  hit.addEventListener("click",ev=>{const r=svg.getBoundingClientRect(),km=((ev.clientX-r.left)/r.width*W-L)/(W-L-R)*dist;const d=DAYS.find(q=>km<=q.off+q.km)||DAYS[12];hideTip();location.hash="day-"+d.n});
+  host.append(svg)}
+// ---- per-day sketch: track shape and altitude, with the points where updates were sent
+function dayViz(d){const box=H("div",{class:"dayviz"});
+  const la=d.line.map(p=>p[0]),lo=d.line.map(p=>p[1]),dx=(Math.max(...lo)-Math.min(...lo))*KX||1e-4,dy=(Math.max(...la)-Math.min(...la))||1e-4,W=240,Hh=150,pad=14,sc=Math.min((W-2*pad)/dx,(Hh-2*pad)/dy);
+  const ox=(W-dx*sc)/2,oy=(Hh-dy*sc)/2,px=p=>ox+(p[1]-Math.min(...lo))*KX*sc,py=p=>oy+(Math.max(...la)-p[0])*sc;
+  const m=S("svg",{viewBox:"0 0 "+W+" "+Hh,role:"img","aria-label":"Shape of the track on day "+d.n});
+  m.append(S("path",{d:"M"+d.line.map(p=>px(p).toFixed(1)+" "+py(p).toFixed(1)).join("L"),fill:"none",stroke:"var(--blaze)","stroke-width":2.2,"stroke-linejoin":"round","stroke-linecap":"round"}));
+  const a=d.line[0],z=d.line[d.line.length-1];
+  m.append(S("circle",{cx:px(a),cy:py(a),r:4,fill:"var(--surface)",stroke:"var(--blaze)","stroke-width":2}),S("circle",{cx:px(z),cy:py(z),r:5,fill:"var(--ink)",stroke:"var(--surface)","stroke-width":2}));
+  const kmpx=sc/111.2,bar=kmpx*5>W*.5?1:5;m.append(S("line",{x1:8,x2:8+bar*kmpx,y1:Hh-8,y2:Hh-8,stroke:"var(--muted)","stroke-width":1.5}),S("text",{x:12+bar*kmpx,y:Hh-4},[bar+" km"]));
+  const f1b=H("figure",{},[m,H("figcaption",{class:"mono",text:"Track, north up. Open circle start, dark dot night "+d.n})]);
+  const W2=460,H2=150,L=46,R=10,T=12,B=22,lo2=Math.floor(Math.min(...d.elev)/100)*100,hi2=Math.ceil(Math.max(...d.elev)/100)*100||100,x=v=>L+(W2-L-R)*v/d.km,y=v=>T+(H2-T-B)*(1-(v-lo2)/((hi2-lo2)||100));
+  const p=S("svg",{viewBox:"0 0 "+W2+" "+H2,role:"img","aria-label":"Altitude along day "+d.n});
+  [lo2,hi2].forEach(v=>p.append(S("line",{x1:L,x2:W2-R,y1:y(v),y2:y(v),stroke:"var(--line)","stroke-width":1}),S("text",{x:L-6,y:y(v)+4,"text-anchor":"end"},[fm(v)+" m"])));
+  const ln="M"+d.elev.map((e,i)=>x(d.km*i/(d.elev.length-1)).toFixed(1)+" "+y(e).toFixed(1)).join("L");
+  p.append(S("path",{d:ln+"L"+x(d.km)+" "+y(lo2)+"L"+x(0)+" "+y(lo2)+"Z",fill:"var(--contour)",opacity:.25}),S("path",{d:ln,fill:"none",stroke:"var(--contour)","stroke-width":2,"stroke-linejoin":"round"}));
+  p.append(S("text",{x:L,y:H2-6},["0 km"]),S("text",{x:W2-R,y:H2-6,"text-anchor":"end"},[f1(d.km)+" km"]));
+  (PH[d.n+10]||[]).forEach(q=>{if(q[4]!=null)p.append(S("line",{x1:x(q[4]),x2:x(q[4]),y1:y(lo2),y2:y(lo2)-7,stroke:"var(--ink)","stroke-width":1,opacity:.55}))});
+  const seen={};Object.keys(d.m||{}).forEach(t=>{const v=d.m[t];if(v[0]!=="m")return;const key=v[1].toFixed(1);const c=seen[key];
+    if(c){c.firstChild.textContent+="\n"+t;return}
+    const g=S("circle",{cx:x(v[1]),cy:y(elevAt(d,v[1])),r:4.5,fill:"var(--ice)",stroke:"var(--surface)","stroke-width":2});g.append(S("title",{},["Update sent at km "+key+", "+fm(v[2])+" m: "+t]));seen[key]=g;p.append(g)});
+  const f2=H("figure",{},[p,H("figcaption",{class:"mono",text:"Altitude. Blue dots: updates sent. Ticks: photos taken"})]);
+  box.append(f1b,f2);return box}
+function zoneBar(z){const tot=z.reduce((a,b)=>a+b,0);const w=H("div",{class:"zones"});if(tot<1800){w.append(H("span",{class:"mono",text:"Heart-rate zones: too little data recorded"}));return w}
+  const bar=H("div",{class:"zbar"});z.forEach((v,i)=>{if(v>0)bar.append(H("i",{class:"z"+(i+1),style:"width:"+(v/tot*100).toFixed(1)+"%",title:"Zone "+(i+1)+": "+Math.round(v/tot*100)+"%, "+hm(v/60)}))});
+  w.append(H("span",{class:"mono",text:"HR zones"}),bar,H("span",{class:"mono num",text:"Z1–2 "+Math.round((z[0]+z[1])/tot*100)+"% · Z3 "+Math.round(z[2]/tot*100)+"% · Z4–5 "+Math.round((z[3]+z[4])/tot*100)+"%"}));return w}
+
+// ---- looking back
+function renderBack(){const blk=DAYS.filter(d=>d.n>=3&&d.n<=7),sum=(a,k)=>a.reduce((s,d)=>s+d[k],0);
+  const steep=[...DAYS].sort((a,b)=>b.up/b.km-a.up/a.km)[0],big=[...DAYS].sort((a,b)=>b.ke-a.ke)[0];
+  const cols=$("#backCols");const K=(k,t,tag)=>H(tag||"p",{"data-k":k,text:t});
+  const c1=H("div");c1.append(K("b-pull1","Over a third of the way across, and almost two Everests of climbing.","p"));c1.firstChild.className="pull";
+  c1.append(K("b-p1","Gavarnie sits 36% of the way from Hendaye to Banyuls by longitude. Getting there took "+f1(TOTAL.km)+" km and "+fm(TOTAL.up)+" m of climbing, "+(TOTAL.up/8849).toFixed(1)+
+    " times the height of Everest above the sea, at an average of "+f1(TOTAL.km/13)+" km and "+fm(TOTAL.up/13)+" m of climbing a day with no full rest day."));
+  c1.append(K("b-p2","The biggest day was day "+big.n+" ("+f1(big.km)+" km, +"+fm(big.up)+" m, −"+fm(big.down)+" m, "+hm(big.rec)+" recorded). The steepest was day "+steep.n+", the climb to Arrémoulit: "+fm(steep.up)+" m of climbing in "+f1(steep.km)+" km."));
+  const c2=H("div");c2.append(H("h3",{"data-k":"b-h2",text:"How the load built up"}));
+  const ul=H("ul");[
+   "The big days came first. Day 1 was "+f1(DAYS[0].km)+" km. Day 3 was already "+f1(DAYS[2].km)+" km with "+fm(DAYS[2].down)+" m of descent, the largest descent of the trip.",
+   "Days 3 to 7 ran "+f1(sum(blk,"km"))+" km, +"+fm(sum(blk,"up"))+" m and −"+fm(sum(blk,"down"))+" m in five days, an average of "+f1(sum(blk,"km")/5)+" km a day, all before the central Pyrenees began.",
+   "Heart rate settled quickly: "+DAYS[0].hr+" and "+DAYS[1].hr+" bpm on the two opening days, then "+Math.min(...DAYS.slice(2,12).map(d=>d.hr))+" to "+Math.max(...DAYS.slice(2,12).map(d=>d.hr))+" bpm for the next ten. Garmin put "+TOTAL.zones12+"% of the hike in heart-rate zones 1 and 2. The engine was not the limit.",
+   "The feet were. Blister plasters on day 5, boots described as very stiff and too small on day 8, the only pair in the only shop in Candanchú on day 9. The left knee is first mentioned on day 12 and the hike stops on day 13."
+  ].forEach((t,i)=>ul.append(K("b-l"+i,t,"li")));c2.append(ul);
+  c2.append(K("b-p3","The figures show the order of events, not the cause. Your own reading on the day was that it was a mechanical issue, not one of strength or willpower, and the heart-rate data is consistent with the fitness part of that."));
+  const c3=H("div");c3.append(H("h3",{"data-k":"b-h3",text:"Thirteen nights"}));
+  const nn=H("div",{class:"nights"});DAYS.forEach(d=>{const s=H("span",{class:d.night[0],title:d.night[1]},[H("b",{text:String(d.n)}),H("small",{text:fm(d.e1)})]);nn.append(s)});c3.append(nn);
+  const cnt=k=>DAYS.filter(d=>d.night[0]===k).length;
+  c3.append(H("div",{class:"legend"},[]));c3.lastChild.innerHTML='<span><i style="width:12px;height:12px;background:var(--contour);border-radius:2px"></i>'+cnt("camp")+' outside, in or beside the tent</span><span><i style="width:12px;height:12px;background:var(--ink);border-radius:2px"></i>'+cnt("hut")+' in huts and refuges</span><span><i style="width:12px;height:12px;border:1px solid var(--line);border-radius:2px"></i>'+cnt("bed")+' in a bed</span>';
+  c3.append(K("b-p4","The figure under each night is its altitude in metres, from "+fm(DAYS[0].e1)+" m by the lake on night 1 to "+fm(DAYS[9].e1)+" m at Arrémoulit on night 10. You crossed the border at least eight times. The storms of days 4, 5 and 6 were met at shelter or within an hour of it. Two were taken outside: the night of day 9 in the tent at 1,600 m, and the night of day 10 outside the refuge at Arrémoulit. Twenty-four people were added to the group to follow along."));
+  const c4=H("div");c4.append(H("h3",{"data-k":"b-h4",text:"What the trail gave you"}));
+  const lg=H("ul",{class:"ledger"});[["Day 1","A Japanese-Algerian walking partner for the first day and a half"],["Day 3","Lunch in Elizondo with a 68-year-old Swiss thru-hiker; water and a radler from a farmer"],["Day 3","A shower left open in Les Aldudes"],
+   ["Day 5","Spare blister plasters from a German field doctor"],["Day 6","Water from people in a campervan"],["Day 6","A walking partner met at dinner in Belagua, who started the same day and walked with you for most of the second week"],["Day 11","Energy bars from people at Refuge Wallon"]]
+   .forEach((r,i)=>lg.append(H("li",{},[H("span",{text:r[0]}),K("b-g"+i,r[1],"div")])));c4.append(lg);
+  const c5=H("div");c5.append(H("h3",{"data-k":"b-h5",text:"If you go back"}));
+  const u5=H("ul");[
+   "Start from Gavarnie. You planned to leave by bus to Lourdes, so the same link should bring you back in; check the timetable. The next section is the five days without towns that you judged too risky on those knees.",
+   "Settle the footwear before day 1. The pair bought on day 9 was the only one in the shop; choose the next pair at home and put distance into it first.",
+   "Hold the first week back. Four of the first six days were over 27 km. A ceiling near 25 km for the opening days and one planned rest day in the first week is a common way to let joints adapt. A suggestion, not a rule.",
+   "Send the extra kit home before leaving. You wanted to post items back from Lescun on day 7.",
+   "Have the knees checked by a physiotherapist or sports doctor before committing to dates. This page can count metres; it cannot assess a joint."
+  ].forEach((t,i)=>u5.append(K("b-s"+i,t,"li")));c5.append(u5);
+  const c6=H("div");c6.append(H("h3",{"data-k":"b-h6",text:"In your words"}));
+  c6.append(K("b-q1","“A little bittersweet, but a lot of lessons learned and beautiful experiences, encounters and especially views.”","p"));c6.lastChild.className="pull";c6.lastChild.style.maxWidth="26ch";
+  c6.append(H("p",{class:"mono",text:"Gavarnie, 23 August 2026, 15:56"}));
+  cols.append(c1,c2,c3,c4,c5,c6)}
+
+// ---- editor: text and colours
+const ORIG={};let TEXTS=LS.get("texts",{}),COL=LS.get("colours",{});
+function isDark(){const t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches}
+function applyTexts(){$$("[data-k]").forEach(e=>{const k=e.dataset.k;if(!(k in ORIG))ORIG[k]=e.textContent;if(k in TEXTS)e.textContent=TEXTS[k]})}
+function cssVar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function applyColours(){const st=document.documentElement.style,th=isDark()?"dark":"light";
+  ["blaze","ice","contour"].forEach(k=>{COL[k]?st.setProperty("--"+k,COL[k]):st.removeProperty("--"+k)});
+  ["paper","ink"].forEach(k=>{const v=COL[k+"_"+th];v?st.setProperty("--"+k,v):st.removeProperty("--"+k)});
+  const set=(id,v)=>{const m=/^#[0-9a-f]{6}$/i.test(v)?v:"#000000";$(id).value=m};
+  set("#edBlaze",cssVar("--blaze"));set("#edIce",cssVar("--ice"));set("#edContour",cssVar("--contour"));set("#edPaper",cssVar("--paper"));set("#edInk",cssVar("--ink"))}
+function editor(){const ed=$("#editor"),btn=$("#editBtn"),msg=$("#edMsg");
+  const open=o=>{ed.classList.toggle("open",o);ed.setAttribute("aria-hidden",String(!o));btn.setAttribute("aria-expanded",String(o))};
+  btn.addEventListener("click",()=>open(!ed.classList.contains("open")));$("#edClose").addEventListener("click",()=>open(false));
+  $("#edText").addEventListener("change",e=>{const on=e.target.checked;document.body.classList.toggle("editing",on);
+    $$("[data-k]").forEach(el=>{if(on){el.setAttribute("contenteditable","plaintext-only");if(el.contentEditable!=="plaintext-only")el.setAttribute("contenteditable","true")}else el.removeAttribute("contenteditable")})});
+  document.addEventListener("input",e=>{const el=e.target.closest&&e.target.closest("[data-k]");if(el&&el.isContentEditable){TEXTS[el.dataset.k]=el.innerText;LS.set("texts",TEXTS)}});
+  [["#edBlaze","blaze"],["#edIce","ice"],["#edContour","contour"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{COL[k]=e.target.value;LS.set("colours",COL);applyColours()}));
+  [["#edPaper","paper"],["#edInk","ink"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{COL[k+"_"+(isDark()?"dark":"light")]=e.target.value;LS.set("colours",COL);applyColours()}));
+  const twice=(id,label,fn)=>{const b=$(id);let armed=0;b.addEventListener("click",async()=>{if(!armed){armed=1;b.textContent="Sure?";setTimeout(()=>{armed=0;b.textContent=label},3000);return}armed=0;b.textContent=label;await fn();msg.textContent=label+" reset."})};
+  twice("#rsText","Text",()=>{TEXTS={};LS.del("texts");$$("[data-k]").forEach(e=>{e.textContent=ORIG[e.dataset.k]})});
+  twice("#rsColours","Colours",()=>{COL={};LS.del("colours");applyColours()});
+  try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyColours)}catch(e){}
+  new MutationObserver(applyColours).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  $("#lbClose").addEventListener("click",()=>$("#lightbox").classList.remove("open"));
+  $("#lightbox").addEventListener("click",e=>{if(e.target.id==="lightbox")e.currentTarget.classList.remove("open")});
+  $("#lbPrev").addEventListener("click",()=>stepLB(-1));$("#lbNext").addEventListener("click",()=>stepLB(1));
+  document.addEventListener("keydown",e=>{const lb=$("#lightbox").classList.contains("open");if(e.key==="Escape"){$("#lightbox").classList.remove("open");open(false)}
+    else if(lb&&e.key==="ArrowLeft")stepLB(-1);else if(lb&&e.key==="ArrowRight")stepLB(1)})}
+
+// ---- boot
+renderFigs();renderStrip();renderMap();renderProfile();charts();renderDays();renderBack();applyTexts();applyColours();editor();
+// Inside the training dashboard (same-origin frame): follow its light/dark setting. Elsewhere the parent is unreadable and this is skipped.
+try{if(window.parent!==window){const pr=window.parent.document.documentElement,sync=()=>{const t=pr.dataset.theme;if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme;applyColours()};
+  sync();new MutationObserver(sync).observe(pr,{attributes:true,attributeFilter:["data-theme"]});document.body.classList.add("embedded")}}catch(e){}
+// Opened on its own from the dashboard site: offer the way back.
+if(window.parent===window&&/\/story\//.test(location.pathname)){const b=$("#backLink");if(b)b.hidden=false}
+})();
+
+</script>
+</body>
+</html>
