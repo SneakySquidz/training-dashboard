@@ -1,0 +1,17 @@
+{
+  "trips": [
+    {
+      "id": "hrp",
+      "name": "Pyrenees traverse (HRP / GR10 / GR11)",
+      "start": "2026-08-11",
+      "end": "2026-08-23",
+      "types": [
+        "hiking",
+        "mountaineering"
+      ],
+      "mergeSameDay": true,
+      "story": "story"
+    }
+  ],
+  "allTracks": true
+}
